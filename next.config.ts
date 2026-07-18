@@ -8,9 +8,20 @@ const dirname = path.dirname(__filename)
 
 const nextConfig: NextConfig = {
   images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'ik.imagekit.io',
+        port: '',
+        pathname: '/**',
+      },
+    ],
     localPatterns: [
       {
         pathname: '/api/media/file/**',
+      },
+      {
+        pathname: '/**',
       },
     ],
   },

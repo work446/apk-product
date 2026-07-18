@@ -2,6 +2,7 @@ import React from 'react'
 
 import '../global.css'
 import { Navbar } from '@/components/Navbar'
+import { TopBanner } from '@/components/TopBanner'
 
 export const metadata = {
   description: 'A blank template using Payload in a Next.js app.',
@@ -16,8 +17,9 @@ export default async function RootLayout(props: {
   const { locale } = await params
 
   return (
-    <html lang={locale}>
+    <html lang={locale} suppressHydrationWarning>
       <body>
+        <TopBanner locale={locale} />
         <Navbar locale={locale} />
         <main>{children}</main>
       </body>

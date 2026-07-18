@@ -4,10 +4,17 @@ import path from 'path'
 import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
 import sharp from 'sharp'
-import imagekitPlugin from 'payloadcms-plugin-imagekit'
+import imagekitPluginPkg from 'payloadcms-plugin-imagekit'
+
+// Handle ESM/CJS interop for the plugin
+const imagekitPlugin = typeof imagekitPluginPkg === 'function' 
+  ? imagekitPluginPkg 
+  : (imagekitPluginPkg as any).default
 
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
+import { Pages } from './collections/Pages'
+import { TopBanners } from './collections/TopBanners'
 import { Navbar } from './globals/Navbar'
 import { seedDatabase } from './scripts/seed'
 
@@ -21,7 +28,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media],
+  collections: [Users, Media, Pages, TopBanners],
   globals: [Navbar],
   localization: {
     locales: ['en', 'vi'],
@@ -40,7 +47,7 @@ export default buildConfig({
   }),
   sharp,
   plugins: [
-    ((imagekitPlugin as any).default || imagekitPlugin)({
+    imagekitPlugin({
       config: {
         publicKey: process.env.IMAGEKIT_PUBLIC_KEY || 'your_public_api_key',
         privateKey: process.env.IMAGEKIT_PRIVATE_KEY || 'your_private_api_key',
@@ -49,19 +56,7 @@ export default buildConfig({
       collections: {
         media: {
           uploadOption: {
-            folder: 'some folder',
-            extensions: [
-              {
-                name: 'aws-auto-tagging',
-                minConfidence: 80,
-                maxTags: 10,
-              },
-              {
-                name: 'google-auto-tagging',
-                minConfidence: 70,
-                maxTags: 10,
-              },
-            ],
+            folder: 'apk_product_media',
           },
           savedProperties: ['url', 'AITags'],
         },

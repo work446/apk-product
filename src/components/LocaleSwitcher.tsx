@@ -26,7 +26,7 @@ export function LocaleSwitcher({ currentLocale }: { currentLocale: 'en' | 'vi' }
   }
 
   return (
-    <DropdownMenu>
+    <DropdownMenu modal={false}>
       <DropdownMenuTrigger
         render={
           <Button variant="ghost" size="icon" className="h-9 w-9 border border-input bg-background">

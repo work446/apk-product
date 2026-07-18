@@ -69,6 +69,8 @@ export interface Config {
   collections: {
     users: User;
     media: Media;
+    pages: Page;
+    'top-banners': TopBanner;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -78,6 +80,8 @@ export interface Config {
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    pages: PagesSelect<false> | PagesSelect<true>;
+    'top-banners': TopBannersSelect<false> | TopBannersSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -173,6 +177,72 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages".
+ */
+export interface Page {
+  id: number;
+  title: string;
+  slug: string;
+  layout: {
+    tagline: string;
+    headlineBlack: string;
+    headlineRed: string;
+    subtitle: string;
+    features?:
+      | {
+          icon: 'Shield' | 'Tag' | 'Wrench';
+          title: string;
+          description: string;
+          id?: string | null;
+        }[]
+      | null;
+    actions?:
+      | {
+          label: string;
+          url: string;
+          style: 'primary' | 'secondary' | 'ghost';
+          id?: string | null;
+        }[]
+      | null;
+    sliderImages?:
+      | {
+          image: number | Media;
+          id?: string | null;
+        }[]
+      | null;
+    trustBanner?:
+      | {
+          icon: 'ShieldCheck' | 'Truck' | 'Package' | 'Award' | 'Headset';
+          text: string;
+          id?: string | null;
+        }[]
+      | null;
+    id?: string | null;
+    blockName?: string | null;
+    blockType: 'hero';
+  }[];
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "top-banners".
+ */
+export interface TopBanner {
+  id: number;
+  internalName: string;
+  isActive?: boolean | null;
+  leftIcon?: (number | null) | Media;
+  centerIcon?: (number | null) | Media;
+  rightIcon?: (number | null) | Media;
+  leftText: string;
+  centerText: string;
+  phoneNumber: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -202,6 +272,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'media';
         value: number | Media;
+      } | null)
+    | ({
+        relationTo: 'pages';
+        value: number | Page;
+      } | null)
+    | ({
+        relationTo: 'top-banners';
+        value: number | TopBanner;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -292,6 +370,75 @@ export interface MediaSelect<T extends boolean = true> {
   height?: T;
   focalX?: T;
   focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages_select".
+ */
+export interface PagesSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  layout?:
+    | T
+    | {
+        hero?:
+          | T
+          | {
+              tagline?: T;
+              headlineBlack?: T;
+              headlineRed?: T;
+              subtitle?: T;
+              features?:
+                | T
+                | {
+                    icon?: T;
+                    title?: T;
+                    description?: T;
+                    id?: T;
+                  };
+              actions?:
+                | T
+                | {
+                    label?: T;
+                    url?: T;
+                    style?: T;
+                    id?: T;
+                  };
+              sliderImages?:
+                | T
+                | {
+                    image?: T;
+                    id?: T;
+                  };
+              trustBanner?:
+                | T
+                | {
+                    icon?: T;
+                    text?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "top-banners_select".
+ */
+export interface TopBannersSelect<T extends boolean = true> {
+  internalName?: T;
+  isActive?: T;
+  leftIcon?: T;
+  centerIcon?: T;
+  rightIcon?: T;
+  leftText?: T;
+  centerText?: T;
+  phoneNumber?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

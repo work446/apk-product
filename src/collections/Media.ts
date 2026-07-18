@@ -12,5 +12,8 @@ export const Media: CollectionConfig = {
       required: true,
     },
   ],
-  upload: true,
+  upload: {
+    disableLocalStorage: true,
+    adminThumbnail: ({ doc }) => (doc.imagekit as any)?.thumbnailUrl || (doc.imagekit as any)?.url || doc.url,
+  },
 }
