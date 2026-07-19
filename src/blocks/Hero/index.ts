@@ -101,6 +101,14 @@ export const Hero: Block = {
           relationTo: 'media',
           required: true,
         },
+        {
+          name: 'mobileImage',
+          type: 'upload',
+          relationTo: 'media',
+          admin: {
+            description: 'Optional: Image for screens below 768px. Falls back to the main image if not provided.',
+          },
+        },
       ],
     },
     {

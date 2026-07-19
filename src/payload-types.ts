@@ -207,6 +207,10 @@ export interface Page {
     sliderImages?:
       | {
           image: number | Media;
+          /**
+           * Optional: Image for screens below 768px. Falls back to the main image if not provided.
+           */
+          mobileImage?: (number | null) | Media;
           id?: string | null;
         }[]
       | null;
@@ -408,6 +412,7 @@ export interface PagesSelect<T extends boolean = true> {
                 | T
                 | {
                     image?: T;
+                    mobileImage?: T;
                     id?: T;
                   };
               trustBanner?:

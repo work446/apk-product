@@ -24,7 +24,10 @@ export const HeroBlock: React.FC<any> = ({
   sliderImages,
 }) => {
   const images = (sliderImages || [])
-    .map((item: any) => item.image)
+    .map((item: any) => ({
+      ...(item.image || {}),
+      mobileImage: item.mobileImage,
+    }))
     .filter((img: any) => img?.imagekit?.url || img?.url)
   const [currentSlide, setCurrentSlide] = useState(0)
 
@@ -46,7 +49,7 @@ export const HeroBlock: React.FC<any> = ({
 
   return (
     <>
-      <section className="relative w-full aspect-video overflow-hidden bg-gray-900">
+      <section className="relative w-full aspect-[9/16] md:aspect-video overflow-hidden bg-gray-900">
         {/* Background Images Slider Wrapper — fills the aspect-video section at every screen size */}
         <div className="absolute inset-0 z-0 overflow-hidden">
           {images.length > 0 ? (
@@ -57,6 +60,7 @@ export const HeroBlock: React.FC<any> = ({
                   index === currentSlide ? 'opacity-100' : 'opacity-0'
                 }`}
               >
+                {/* Desktop Image */}
                 <Image
                   src={(img.imagekit?.url || img.url) as string}
                   alt={img.alt || `Hero Slide ${index + 1}`}
@@ -64,9 +68,23 @@ export const HeroBlock: React.FC<any> = ({
                   sizes="100vw"
                   priority={index === 0}
                   className={`object-cover object-[80%_center] lg:object-right w-full h-full transition-transform duration-10000ms ease-out ${
-                    index === currentSlide ? 'scale-100' : 'scale-95'
-                  }`}
+                    img.mobileImage ? 'hidden md:block' : ''
+                  } ${index === currentSlide ? 'scale-100' : 'scale-95'}`}
                 />
+
+                {/* Mobile Image (rendered only if available) */}
+                {img.mobileImage && (
+                  <Image
+                    src={(img.mobileImage.imagekit?.url || img.mobileImage.url) as string}
+                    alt={img.mobileImage.alt || `Hero Mobile Slide ${index + 1}`}
+                    fill
+                    sizes="100vw"
+                    priority={index === 0}
+                    className={`object-cover object-center w-full h-full transition-transform duration-10000ms ease-out md:hidden ${
+                      index === currentSlide ? 'scale-100' : 'scale-95'
+                    }`}
+                  />
+                )}
               </div>
             ))
           ) : (
@@ -122,11 +140,11 @@ export const HeroBlock: React.FC<any> = ({
         </div>
 
         {/* Content Wrapper — stacked below the image on mobile/tablet, overlaid on top at lg+ */}
-        <div className="relative h-full lg:absolute lg:inset-0 z-10 w-full flex flex-col justify-center px-4 py-4 sm:py-4 lg:py-0">
+        <div className="relative h-full lg:absolute lg:inset-0 z-10 w-full flex flex-col justify-start md:justify-center px-4 pt-16 pb-4 sm:pt-20 sm:pb-8 md:py-4 lg:py-0">
           <div className="container mx-auto">
-            <div className="flex flex-col lg:flex-row items-start lg:items-center gap-6 lg:gap-20">
+            <div className="flex flex-col lg:flex-row items-center md:items-start lg:items-center gap-6 lg:gap-20">
               {/* Left Content Area */}
-              <div className="w-full max-w-[85%] sm:max-w-[60%] lg:max-w-none lg:w-1/2 flex flex-col items-start text-left">
+              <div className="w-full max-w-[90%] sm:max-w-[70%] md:max-w-[55%] lg:max-w-none lg:w-1/2 flex flex-col items-center text-center md:items-start md:text-left">
                 <span className="text-primary font-bold uppercase tracking-wider text-[9px] sm:text-[10px] lg:text-xs xl:text-sm mb-2 sm:mb-2 lg:mb-3 xl:mb-4">
                   {tagline}
                 </span>
@@ -144,9 +162,12 @@ export const HeroBlock: React.FC<any> = ({
 
                 {/* Features List */}
                 {features && features.length > 0 && (
-                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-2 sm:gap-2.5 lg:gap-4 xl:gap-6 mb-4 sm:mb-5 lg:mb-8 xl:mb-10 w-full lg:max-w-none">
+                  <div className="grid grid-cols-3 min-[426px]:grid-cols-1 lg:grid-cols-3 gap-2 sm:gap-2.5 lg:gap-4 xl:gap-6 mb-4 sm:mb-5 lg:mb-8 xl:mb-10 w-full lg:max-w-none">
                     {features.map((feature: any, index: number) => (
-                      <div key={index} className="flex items-stretch gap-2 lg:gap-3 xl:gap-4">
+                      <div
+                        key={index}
+                        className="flex items-stretch justify-center md:justify-start gap-2 lg:gap-3 xl:gap-4"
+                      >
                         {/* Icon */}
                         <div className="flex items-start mt-0.5 sm:mt-1 shrink-0">
                           <div className="p-1.5 sm:p-2 lg:p-2 xl:p-2.5 bg-white/20 rounded-full text-white backdrop-blur-md shadow-sm">
@@ -161,7 +182,7 @@ export const HeroBlock: React.FC<any> = ({
                         <div className="hidden sm:block w-[1px] bg-white/30 shrink-0 my-0.5 lg:my-1" />
 
                         {/* Text Content */}
-                        <div className="flex flex-col py-0.5 lg:py-1">
+                        <div className="flex flex-col py-0.5 lg:py-1 text-left">
                           <h3 className="font-semibold text-white text-[9px] sm:text-[10px] lg:text-[11px] xl:text-sm drop-shadow-md mb-0 lg:mb-1">
                             {feature.title}
                           </h3>
@@ -176,7 +197,7 @@ export const HeroBlock: React.FC<any> = ({
 
                 {/* Actions / Buttons */}
                 {actions && actions.length > 0 && (
-                  <div className="flex flex-wrap items-center gap-2 sm:gap-3 lg:gap-3 xl:gap-4 mb-2 sm:mb-4 lg:mb-8 xl:mb-12">
+                  <div className="hidden md:flex flex-wrap items-center gap-2 sm:gap-3 lg:gap-3 xl:gap-4 mb-2 sm:mb-4 lg:mb-8 xl:mb-12">
                     {actions.map((action: any, index: number) => {
                       let variant: any = 'default'
                       let extraClass = ''
