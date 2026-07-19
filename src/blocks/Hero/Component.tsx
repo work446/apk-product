@@ -65,9 +65,7 @@ export const HeroBlock: React.FC<any> = ({
                   src={(img.imagekit?.url || img.url) as string}
                   alt={img.alt || `Hero Slide ${index + 1}`}
                   fill
-
                   priority={index === 0}
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   className={`object-cover object-[80%_center] lg:object-right w-full h-full transition-transform duration-10000ms ease-out ${
                     img.mobileImage ? 'max-[520px]:hidden' : ''
                   } ${index === currentSlide ? 'scale-100' : 'scale-95'}`}
@@ -79,7 +77,6 @@ export const HeroBlock: React.FC<any> = ({
                     src={(img.mobileImage.imagekit?.url || img.mobileImage.url) as string}
                     alt={img.mobileImage.alt || `Hero Mobile Slide ${index + 1}`}
                     fill
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     priority={index === 0}
                     className={`object-cover object-center w-full h-full transition-transform duration-10000ms ease-out hidden max-[520px]:block ${
                       index === currentSlide ? 'scale-100' : 'scale-95'
@@ -128,7 +125,7 @@ export const HeroBlock: React.FC<any> = ({
 
               {/* Dots Navigation */}
               <div className="absolute bottom-4 lg:bottom-8 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2">
-                {images.map((_, idx) => (
+                {images.map((_: any, idx: number) => (
                   <button
                     key={idx}
                     onClick={() => setCurrentSlide(idx)}

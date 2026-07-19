@@ -183,50 +183,78 @@ export interface Page {
   id: number;
   title: string;
   slug: string;
-  layout: {
-    tagline: string;
-    headlineBlack: string;
-    headlineRed: string;
-    subtitle: string;
-    features?:
-      | {
-          icon: 'Shield' | 'Tag' | 'Wrench';
-          title: string;
-          description: string;
-          id?: string | null;
-        }[]
-      | null;
-    actions?:
-      | {
-          label: string;
-          url: string;
-          style: 'primary' | 'secondary' | 'ghost';
-          id?: string | null;
-        }[]
-      | null;
-    sliderImages?:
-      | {
-          image: number | Media;
-          /**
-           * Optional: Image for screens below 768px. Falls back to the main image if not provided.
-           */
-          mobileImage?: (number | null) | Media;
-          id?: string | null;
-        }[]
-      | null;
-    trustBanner?:
-      | {
-          icon: 'ShieldCheck' | 'Truck' | 'Package' | 'Award' | 'Headset';
-          text: string;
-          id?: string | null;
-        }[]
-      | null;
-    id?: string | null;
-    blockName?: string | null;
-    blockType: 'hero';
-  }[];
+  layout: (
+    | {
+        tagline: string;
+        headlineBlack: string;
+        headlineRed: string;
+        subtitle: string;
+        features?:
+          | {
+              icon: 'Shield' | 'Tag' | 'Wrench';
+              title: string;
+              description: string;
+              id?: string | null;
+            }[]
+          | null;
+        actions?:
+          | {
+              label: string;
+              url: string;
+              style: 'primary' | 'secondary' | 'ghost';
+              id?: string | null;
+            }[]
+          | null;
+        sliderImages?:
+          | {
+              image: number | Media;
+              /**
+               * Optional: Image for screens below 768px. Falls back to the main image if not provided.
+               */
+              mobileImage?: (number | null) | Media;
+              id?: string | null;
+            }[]
+          | null;
+        trustBanner?:
+          | {
+              icon: 'ShieldCheck' | 'Truck' | 'Package' | 'Award' | 'Headset';
+              text: string;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'hero';
+      }
+    | ExploreProductsBlock
+  )[];
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ExploreProductsBlock".
+ */
+export interface ExploreProductsBlock {
+  title: string;
+  categories: {
+    image: number | Media;
+    /**
+     * Optional badge text (e.g., 24 months warranty)
+     */
+    badge?: string | null;
+    title: string;
+    description: string;
+    /**
+     * The URL this category links to (e.g., /products/emergency-lights)
+     */
+    link: string;
+    linkText: string;
+    id?: string | null;
+  }[];
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'exploreProducts';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -425,9 +453,30 @@ export interface PagesSelect<T extends boolean = true> {
               id?: T;
               blockName?: T;
             };
+        exploreProducts?: T | ExploreProductsBlockSelect<T>;
       };
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ExploreProductsBlock_select".
+ */
+export interface ExploreProductsBlockSelect<T extends boolean = true> {
+  title?: T;
+  categories?:
+    | T
+    | {
+        image?: T;
+        badge?: T;
+        title?: T;
+        description?: T;
+        link?: T;
+        linkText?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

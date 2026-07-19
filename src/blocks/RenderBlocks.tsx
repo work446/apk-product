@@ -1,8 +1,10 @@
 import React from 'react'
 import { HeroBlock } from './Hero/Component'
+import { ExploreProductsBlock } from './ExploreProducts/Component'
 
 const components = {
   hero: HeroBlock,
+  exploreProducts: ExploreProductsBlock,
 }
 
 export const RenderBlocks: React.FC<{

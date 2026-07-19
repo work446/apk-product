@@ -1,4 +1,17 @@
 import type { Payload } from 'payload'
+import fs from 'fs'
+import path from 'path'
+import os from 'os'
+
+async function downloadImage(url: string): Promise<string> {
+  const response = await fetch(url)
+  const arrayBuffer = await response.arrayBuffer()
+  const buffer = Buffer.from(arrayBuffer)
+  const fileName = path.basename(url)
+  const filePath = path.join(os.tmpdir(), fileName)
+  fs.writeFileSync(filePath, buffer)
+  return filePath
+}
 
 export const seedPages = async (payload: Payload) => {
   const pages = await payload.find({
@@ -9,7 +22,41 @@ export const seedPages = async (payload: Payload) => {
   if (pages.docs.length === 0) {
     payload.logger.info('📦 Pages database is empty. Seeding Homepage now...')
 
+    // 1. Download images and create Media docs
+    const enDataPath = path.resolve(process.cwd(), 'apk_en.json')
+    const viDataPath = path.resolve(process.cwd(), 'apk_vi.json')
+    
+    let enData: any = {}
+    let viData: any = {}
+    
+    try {
+      enData = JSON.parse(fs.readFileSync(enDataPath, 'utf-8'))
+      viData = JSON.parse(fs.readFileSync(viDataPath, 'utf-8'))
+    } catch (err) {
+      payload.logger.error('Error reading JSON files, fallback to empty array')
+    }
 
+    const companiesEn = enData?.partners?.companies || []
+    const companiesVi = viData?.partners?.companies || []
+
+    const categoriesData = await Promise.all(
+      companiesEn.map(async (company: any, index: number) => {
+        const viCompany = companiesVi[index] || company
+        const filePath = await downloadImage(company.imageUrl)
+        const media = await payload.create({
+          collection: 'media',
+          data: { alt: company.name },
+          filePath,
+        })
+        return {
+          title: company.name,
+          description: company.description,
+          viDescription: viCompany.description,
+          link: '/' + company.websiteLink,
+          mediaId: media.id,
+        }
+      })
+    )
 
     // 2. Create the Page in English first
     const newPage = await payload.create({
@@ -43,6 +90,17 @@ export const seedPages = async (payload: Payload) => {
               { icon: 'Award', text: 'CERTIFIED PRODUCTS' },
               { icon: 'Headset', text: 'STRONG TECHNICAL SUPPORT' },
             ],
+          },
+          {
+            blockType: 'exploreProducts',
+            title: enData?.partners?.title || 'EXPLORE APK PRODUCTS',
+            categories: categoriesData.map((cat) => ({
+              image: cat.mediaId,
+              title: cat.title,
+              description: cat.description,
+              link: cat.link,
+              linkText: 'VIEW MORE',
+            })),
           },
         ],
       },
@@ -81,6 +139,19 @@ export const seedPages = async (payload: Payload) => {
               { icon: 'Award', text: 'SẢN PHẨM CHỨNG NHẬN' },
               { icon: 'Headset', text: 'HỖ TRỢ KỸ THUẬT MẠNH MẼ' },
             ],
+          },
+          {
+            id: newPage.layout?.[1]?.id, // Ensure we update the same block ID
+            blockType: 'exploreProducts',
+            title: viData?.partners?.title || 'KHÁM PHÁ SẢN PHẨM APK',
+            categories: categoriesData.map((cat, i) => ({
+              id: (newPage.layout?.[1] as any)?.categories?.[i]?.id,
+              image: cat.mediaId,
+              title: cat.title, // Title is not localized in seed data
+              description: cat.viDescription,
+              link: cat.link,
+              linkText: 'XEM THÊM',
+            })),
           },
         ],
       },

@@ -14,18 +14,21 @@ export const Media: CollectionConfig = {
   ],
   upload: {
     disableLocalStorage: true,
-    adminThumbnail: ({ doc }) => (doc.imagekit as any)?.thumbnailUrl || (doc.imagekit as any)?.url || doc.url,
+    adminThumbnail: ({ doc }) =>
+      (doc.imagekit as any)?.thumbnailUrl || (doc.imagekit as any)?.url || doc.url,
   },
   hooks: {
     beforeOperation: [
       async ({ args, operation }) => {
         if ((operation === 'create' || operation === 'update') && args.req?.file?.data) {
           const file = args.req.file
-          if (file.mimetype === 'image/png' || file.mimetype === 'image/jpeg' || file.mimetype === 'image/jpg') {
+          if (
+            file.mimetype === 'image/png' ||
+            file.mimetype === 'image/jpeg' ||
+            file.mimetype === 'image/jpg'
+          ) {
             const sharp = (await import('sharp')).default
-            const webpBuffer = await sharp(file.data)
-              .webp({ quality: 80 })
-              .toBuffer()
+            const webpBuffer = await sharp(file.data).webp({ quality: 100 }).toBuffer()
 
             args.req.file.data = webpBuffer
             args.req.file.mimetype = 'image/webp'
