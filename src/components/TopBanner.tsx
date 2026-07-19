@@ -24,7 +24,7 @@ export const TopBanner = async ({ locale = 'en' }: { locale?: 'en' | 'vi' }) => 
   const activeBanner = banners.docs[0]
 
   return (
-    <div className="fixed top-0 left-0 w-full z-[60] bg-primary text-primary-foreground py-2 px-4 text-xs md:text-sm font-medium h-[64px] md:h-auto flex flex-col justify-center">
+    <div className="fixed top-0 left-0 w-full z-[60] bg-primary text-primary-foreground py-2 px-4 text-xs md:text-sm font-medium h-10 md:h-9 flex flex-col justify-center">
       <div className="container mx-auto flex flex-row justify-between items-center gap-2 md:gap-0">
         <div className="hidden md:flex items-center gap-2">
           {activeBanner.leftIcon && typeof activeBanner.leftIcon === 'object' && (activeBanner.leftIcon.imagekit?.url || activeBanner.leftIcon.url) && (

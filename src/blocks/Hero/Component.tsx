@@ -49,7 +49,7 @@ export const HeroBlock: React.FC<any> = ({
 
   return (
     <>
-      <section className="relative w-full aspect-[9/16] md:aspect-video overflow-hidden bg-gray-900">
+      <section className="relative w-full aspect-video max-[520px]:aspect-[2/3] overflow-hidden bg-gray-50">
         {/* Background Images Slider Wrapper — fills the aspect-video section at every screen size */}
         <div className="absolute inset-0 z-0 overflow-hidden">
           {images.length > 0 ? (
@@ -68,7 +68,7 @@ export const HeroBlock: React.FC<any> = ({
                   sizes="100vw"
                   priority={index === 0}
                   className={`object-cover object-[80%_center] lg:object-right w-full h-full transition-transform duration-10000ms ease-out ${
-                    img.mobileImage ? 'hidden md:block' : ''
+                    img.mobileImage ? 'max-[520px]:hidden' : ''
                   } ${index === currentSlide ? 'scale-100' : 'scale-95'}`}
                 />
 
@@ -80,7 +80,7 @@ export const HeroBlock: React.FC<any> = ({
                     fill
                     sizes="100vw"
                     priority={index === 0}
-                    className={`object-cover object-center w-full h-full transition-transform duration-10000ms ease-out md:hidden ${
+                    className={`object-cover object-center w-full h-full transition-transform duration-10000ms ease-out hidden max-[520px]:block ${
                       index === currentSlide ? 'scale-100' : 'scale-95'
                     }`}
                   />
@@ -101,8 +101,11 @@ export const HeroBlock: React.FC<any> = ({
             </div>
           )}
 
-          {/* Misty gradient overlay for text readability (only needed once content overlays the image, at lg+) */}
-          <div className="hidden lg:block absolute inset-0 z-[5] bg-gradient-to-r from-black/80 via-black/40 via-30% to-transparent to-50% pointer-events-none" />
+          {/* Misty gradient overlay for text readability */}
+          {/* Wider spread for mobile */}
+          <div className="block min-[521px]:hidden absolute inset-0 z-[5] bg-gradient-to-b from-white/95 via-white/70 via-[30%] to-white/0 to-[60%] pointer-events-none" />
+          {/* Left-to-right spread for tablet and desktop */}
+          <div className="hidden min-[521px]:block absolute inset-0 z-[5] bg-gradient-to-r from-white/95 via-white/70 via-[15%] to-white/0 to-[75%] md:to-[50%] pointer-events-none" />
 
           {/* Slider Navigation Arrows & Dots */}
           {images.length > 1 && (
@@ -140,53 +143,48 @@ export const HeroBlock: React.FC<any> = ({
         </div>
 
         {/* Content Wrapper — stacked below the image on mobile/tablet, overlaid on top at lg+ */}
-        <div className="relative h-full lg:absolute lg:inset-0 z-10 w-full flex flex-col justify-start md:justify-center px-4 pt-16 pb-4 sm:pt-20 sm:pb-8 md:py-4 lg:py-0">
+        <div className="relative h-full lg:absolute lg:inset-0 z-10 w-full flex flex-col justify-start min-[521px]:justify-center px-4 pt-6 pb-4 sm:pt-8 sm:pb-8 min-[521px]:py-4 lg:py-0">
           <div className="container mx-auto">
-            <div className="flex flex-col lg:flex-row items-center md:items-start lg:items-center gap-6 lg:gap-20">
+            <div className="flex flex-col lg:flex-row items-center min-[521px]:items-start lg:items-center gap-6 lg:gap-20">
               {/* Left Content Area */}
-              <div className="w-full max-w-[90%] sm:max-w-[70%] md:max-w-[55%] lg:max-w-none lg:w-1/2 flex flex-col items-center text-center md:items-start md:text-left">
-                <span className="text-primary font-bold uppercase tracking-wider text-[9px] sm:text-[10px] lg:text-xs xl:text-sm mb-2 sm:mb-2 lg:mb-3 xl:mb-4">
+              <div className="w-full max-w-[90%] sm:max-w-[70%] min-[521px]:max-w-[55%] lg:max-w-none lg:w-1/2 flex flex-col items-start text-left">
+                <span className="text-primary font-bold uppercase tracking-wider text-[11px] min-[521px]:text-[8px] md:text-[10px] lg:text-xs xl:text-sm mb-2 sm:mb-2 lg:mb-3 xl:mb-4">
                   {tagline}
                 </span>
 
-                <h1 className="[&:lang(en)]:text-xl [&:lang(en)]:sm:text-2xl [&:lang(en)]:lg:text-4xl [&:lang(en)]:xl:text-5xl [&:lang(vi)]:text-lg [&:lang(vi)]:sm:text-xl [&:lang(vi)]:lg:text-[2.25rem] [&:lang(vi)]:xl:text-[2.65rem] font-extrabold leading-tight mb-2 sm:mb-3 lg:mb-4 xl:mb-6 text-white drop-shadow-[0_4px_4px_rgba(0,0,0,0.6)]">
-                  {headlineBlack} <br className="hidden lg:block" />
-                  <span className="text-primary drop-shadow-[0_4px_4px_rgba(0,0,0,0.4)]">
-                    {headlineRed}
-                  </span>
+                <h1 className="[&:lang(en)]:text-2xl [&:lang(en)]:min-[521px]:text-lg [&:lang(en)]:md:text-2xl [&:lang(en)]:lg:text-4xl [&:lang(en)]:xl:text-5xl [&:lang(vi)]:text-xl [&:lang(vi)]:min-[521px]:text-base [&:lang(vi)]:md:text-xl [&:lang(vi)]:lg:text-[2.25rem] [&:lang(vi)]:xl:text-[2.65rem] font-extrabold leading-tight mb-2 sm:mb-3 lg:mb-4 xl:mb-6 text-gray-900">
+                  {headlineBlack} <br />
+                  <span className="text-primary">{headlineRed}</span>
                 </h1>
 
-                <p className="text-[10px] sm:text-xs lg:text-base xl:text-lg text-gray-100 mb-4 sm:mb-4 lg:mb-6 xl:mb-8 max-w-lg drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] font-medium">
+                <p className="text-xs min-[521px]:text-[9px] md:text-xs lg:text-base xl:text-lg text-gray-800 mb-4 sm:mb-4 lg:mb-6 xl:mb-8 max-w-lg font-medium">
                   {subtitle}
                 </p>
 
                 {/* Features List */}
                 {features && features.length > 0 && (
-                  <div className="grid grid-cols-3 min-[426px]:grid-cols-1 lg:grid-cols-3 gap-2 sm:gap-2.5 lg:gap-4 xl:gap-6 mb-4 sm:mb-5 lg:mb-8 xl:mb-10 w-full lg:max-w-none">
+                  <div className="grid grid-cols-1 gap-y-3 sm:gap-y-4 lg:gap-y-5 xl:gap-y-6 mb-4 sm:mb-5 lg:mb-8 xl:mb-10 w-full max-w-[280px] sm:max-w-[320px] lg:max-w-[480px]">
                     {features.map((feature: any, index: number) => (
                       <div
                         key={index}
-                        className="flex items-stretch justify-center md:justify-start gap-2 lg:gap-3 xl:gap-4"
+                        className="flex items-stretch justify-start gap-2 lg:gap-3 xl:gap-4"
                       >
                         {/* Icon */}
                         <div className="flex items-start mt-0.5 sm:mt-1 shrink-0">
-                          <div className="p-1.5 sm:p-2 lg:p-2 xl:p-2.5 bg-white/20 rounded-full text-white backdrop-blur-md shadow-sm">
+                          <div className="text-primary">
                             <DynamicIcon
                               name={feature.icon}
-                              className="w-3.5 h-3.5 sm:w-4 sm:h-4 lg:w-4 lg:h-4 xl:w-5 xl:h-5"
+                              className="w-4 h-4 sm:w-5 sm:h-5 lg:w-5 lg:h-5 xl:w-6 xl:h-6"
                             />
                           </div>
                         </div>
 
-                        {/* Vertical Divider (hidden on small mobile for cleaner look) */}
-                        <div className="hidden sm:block w-[1px] bg-white/30 shrink-0 my-0.5 lg:my-1" />
-
                         {/* Text Content */}
-                        <div className="flex flex-col py-0.5 lg:py-1 text-left">
-                          <h3 className="font-semibold text-white text-[9px] sm:text-[10px] lg:text-[11px] xl:text-sm drop-shadow-md mb-0 lg:mb-1">
+                        <div className="flex flex-col py-0 lg:py-0 text-left">
+                          <h3 className="font-bold text-gray-900 text-[11px] min-[521px]:text-[8px] md:text-[10px] lg:text-[11px] xl:text-sm mb-0 lg:mb-0.5">
                             {feature.title}
                           </h3>
-                          <p className="text-[8px] sm:text-[9px] lg:text-[10px] xl:text-xs text-gray-200 drop-shadow-md font-medium leading-tight lg:leading-relaxed">
+                          <p className="text-[10px] min-[521px]:text-[7px] md:text-[9px] lg:text-[10px] xl:text-xs text-gray-600 font-medium leading-tight lg:leading-relaxed">
                             {feature.description}
                           </p>
                         </div>
@@ -197,7 +195,7 @@ export const HeroBlock: React.FC<any> = ({
 
                 {/* Actions / Buttons */}
                 {actions && actions.length > 0 && (
-                  <div className="hidden md:flex flex-wrap items-center gap-2 sm:gap-3 lg:gap-3 xl:gap-4 mb-2 sm:mb-4 lg:mb-8 xl:mb-12">
+                  <div className="hidden min-[521px]:flex flex-wrap items-center gap-2 sm:gap-3 lg:gap-3 xl:gap-4 mb-2 sm:mb-4 lg:mb-8 xl:mb-12">
                     {actions.map((action: any, index: number) => {
                       let variant: any = 'default'
                       let extraClass = ''
@@ -218,16 +216,16 @@ export const HeroBlock: React.FC<any> = ({
                         <Button
                           key={index}
                           variant={variant}
-                          className={`h-7 px-3 sm:h-8 sm:px-4 lg:h-11 lg:px-6 xl:h-14 xl:px-8 text-[9px] sm:text-[10px] lg:text-xs xl:text-base font-bold uppercase tracking-wide transition-all ${extraClass}`}
+                          className={`h-7 px-3 min-[521px]:h-6 min-[521px]:px-2.5 md:h-8 md:px-4 lg:h-11 lg:px-6 xl:h-14 xl:px-8 text-[9px] min-[521px]:text-[8px] md:text-[10px] lg:text-xs xl:text-base font-bold uppercase tracking-wide transition-all ${extraClass}`}
                           render={<Link href={action.url} />}
                           {...({ nativeButton: false } as any)}
                         >
                           {action.style === 'ghost' && (
-                            <LucideIcons.PlayCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4 lg:w-4 lg:h-4 xl:w-5 xl:h-5 mr-1 sm:mr-2" />
+                            <LucideIcons.PlayCircle className="w-3.5 h-3.5 min-[521px]:w-3 min-[521px]:h-3 md:w-4 md:h-4 lg:w-4 lg:h-4 xl:w-5 xl:h-5 mr-1 sm:mr-2" />
                           )}
                           {action.label}
                           {action.style !== 'ghost' && (
-                            <LucideIcons.ArrowRight className="w-3 h-3 sm:w-3.5 sm:h-3.5 ml-1 sm:ml-2" />
+                            <LucideIcons.ArrowRight className="w-3 h-3 min-[521px]:w-2.5 min-[521px]:h-2.5 md:w-3.5 md:h-3.5 ml-1 sm:ml-2" />
                           )}
                         </Button>
                       )
