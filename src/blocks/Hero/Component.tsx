@@ -242,21 +242,21 @@ export const HeroBlock: React.FC<any> = ({
 
       {/* Bottom Trust Banner */}
       {trustBanner && trustBanner.length > 0 && (
-        <div className="w-full bg-white border-t border-b border-gray-100 shadow-sm">
+        <div className="w-full bg-white border-t border-b border-gray-100">
           <div className="container mx-auto px-4 py-4 lg:py-3 xl:py-5">
-            <div className="grid grid-cols-3 max-[520px]:gap-y-6 lg:flex lg:flex-nowrap lg:justify-between lg:items-center gap-3 sm:gap-4 lg:gap-2 xl:gap-6">
+            <div className="grid grid-cols-3 max-[520px]:gap-y-6 min-[521px]:flex min-[521px]:flex-nowrap min-[521px]:justify-center min-[521px]:items-center gap-6 sm:gap-6 lg:gap-8 xl:gap-12 w-full">
               {trustBanner.map((item: any, index: number) => (
                 <div
                   key={index}
-                  className={`flex max-[520px]:flex-col max-[520px]:items-center max-[520px]:justify-start lg:flex-row items-center gap-2 sm:gap-3 lg:gap-1.5 xl:gap-3 ${index % 3 !== 2 ? 'max-[520px]:border-r max-[520px]:border-gray-200' : ''}`}
+                  className={`flex max-[520px]:flex-col max-[520px]:items-center max-[520px]:justify-start min-[521px]:flex-row min-[521px]:items-center min-[521px]:justify-start gap-2 sm:gap-3 lg:gap-1.5 xl:gap-3 shrink-0 ${index % 3 !== 2 ? 'max-[520px]:border-r max-[520px]:border-gray-200' : ''}`}
                 >
                   <div className="text-primary shrink-0 max-[520px]:mb-1">
                     <DynamicIcon
                       name={item.icon}
-                      className="w-7 h-7 min-[521px]:w-4 min-[521px]:h-4 sm:w-5 sm:h-5 lg:w-4 lg:h-4 xl:w-6 xl:h-6"
+                      className="max-[520px]:w-6 max-[520px]:h-6 w-5 h-5 sm:w-5 sm:h-5 lg:w-4 lg:h-4 xl:w-6 xl:h-6"
                     />
                   </div>
-                  <span className="font-bold text-gray-900 text-[14px] text-center min-[521px]:text-left min-[521px]:text-[9px] sm:text-[10px] lg:text-[10px] xl:text-sm uppercase tracking-wide leading-tight lg:whitespace-nowrap max-[520px]:px-1">
+                  <span className="font-bold text-gray-900 max-[520px]:text-[10px] max-[520px]:text-center text-[11px] sm:text-[10px] lg:text-[10px] xl:text-sm uppercase tracking-wide leading-tight min-[521px]:whitespace-nowrap max-[520px]:px-1">
                     {item.text}
                   </span>
                   {/* Separator Line (except for the last item) */}
