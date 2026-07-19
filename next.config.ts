@@ -37,6 +37,7 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: path.resolve(dirname),
   },
+  allowedDevOrigins: ['affix-nuzzle-contrite.ngrok-free.dev'],
 }
 
 export default withPayload(nextConfig, { devBundleServerPackages: false })

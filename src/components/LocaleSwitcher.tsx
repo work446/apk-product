@@ -3,7 +3,7 @@
 import * as React from 'react'
 import { useRouter, usePathname } from 'next/navigation'
 import { Languages, Check } from 'lucide-react'
-import { Button } from '@/components/ui/button'
+import { Button, buttonVariants } from '@/components/ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -22,19 +22,23 @@ export function LocaleSwitcher({ currentLocale }: { currentLocale: 'en' | 'vi' }
     } else {
       segments.splice(1, 0, newLocale)
     }
-    router.push(segments.join('/'))
+    window.location.href = segments.join('/')
   }
 
   return (
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger
         render={
-          <Button variant="ghost" size="icon" className="h-9 w-9 border border-input bg-background">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-9 w-9 border border-input bg-background relative z-[70] pointer-events-auto"
+          >
             <Languages className="h-4 w-4" />
             <span className="sr-only">Toggle language</span>
           </Button>
         }
-      ></DropdownMenuTrigger>
+      />
       <DropdownMenuContent align="end" className="w-32">
         <DropdownMenuItem onClick={() => handleLocaleChange('en')} className="justify-between">
           English

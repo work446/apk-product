@@ -13,6 +13,19 @@ export const Navbar: GlobalConfig = {
       required: false,
     },
     {
+      name: 'ctaText',
+      type: 'text',
+      required: false,
+      defaultValue: 'SEE PRODUCTS',
+      localized: true,
+    },
+    {
+      name: 'ctaUrl',
+      type: 'text',
+      required: false,
+      defaultValue: '#products',
+    },
+    {
       name: 'links',
       type: 'array',
       fields: [

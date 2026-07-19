@@ -65,8 +65,9 @@ export const HeroBlock: React.FC<any> = ({
                   src={(img.imagekit?.url || img.url) as string}
                   alt={img.alt || `Hero Slide ${index + 1}`}
                   fill
-                  sizes="100vw"
+
                   priority={index === 0}
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   className={`object-cover object-[80%_center] lg:object-right w-full h-full transition-transform duration-10000ms ease-out ${
                     img.mobileImage ? 'max-[520px]:hidden' : ''
                   } ${index === currentSlide ? 'scale-100' : 'scale-95'}`}
@@ -78,7 +79,7 @@ export const HeroBlock: React.FC<any> = ({
                     src={(img.mobileImage.imagekit?.url || img.mobileImage.url) as string}
                     alt={img.mobileImage.alt || `Hero Mobile Slide ${index + 1}`}
                     fill
-                    sizes="100vw"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     priority={index === 0}
                     className={`object-cover object-center w-full h-full transition-transform duration-10000ms ease-out hidden max-[520px]:block ${
                       index === currentSlide ? 'scale-100' : 'scale-95'
@@ -244,11 +245,11 @@ export const HeroBlock: React.FC<any> = ({
       {trustBanner && trustBanner.length > 0 && (
         <div className="w-full bg-white border-t border-b border-gray-100">
           <div className="container mx-auto px-4 py-4 lg:py-3 xl:py-5">
-            <div className="grid grid-cols-3 max-[520px]:gap-y-6 min-[521px]:flex min-[521px]:flex-nowrap min-[521px]:justify-center min-[521px]:items-center gap-6 sm:gap-6 lg:gap-8 xl:gap-12 w-full">
+            <div className="grid grid-cols-3 max-[520px]:gap-x-0 max-[520px]:gap-y-6 min-[521px]:flex min-[521px]:flex-nowrap min-[521px]:justify-center min-[521px]:items-center min-[521px]:gap-6 lg:gap-8 xl:gap-12 w-full">
               {trustBanner.map((item: any, index: number) => (
                 <div
                   key={index}
-                  className={`flex max-[520px]:flex-col max-[520px]:items-center max-[520px]:justify-start min-[521px]:flex-row min-[521px]:items-center min-[521px]:justify-start gap-2 sm:gap-3 lg:gap-1.5 xl:gap-3 shrink-0 ${index % 3 !== 2 ? 'max-[520px]:border-r max-[520px]:border-gray-200' : ''}`}
+                  className={`flex max-[520px]:flex-col max-[520px]:items-center max-[520px]:justify-start min-[521px]:flex-row min-[521px]:items-center min-[521px]:justify-start min-[521px]:gap-2 sm:gap-3 lg:gap-1.5 xl:gap-3 shrink-0 ${index % 3 !== 2 ? 'max-[520px]:border-r max-[520px]:border-gray-200' : ''}`}
                 >
                   <div className="text-primary shrink-0 max-[520px]:mb-1">
                     <DynamicIcon

@@ -492,6 +492,8 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
 export interface Navbar {
   id: number;
   logo?: (number | null) | Media;
+  ctaText?: string | null;
+  ctaUrl?: string | null;
   links?:
     | {
         label: string;
@@ -508,6 +510,8 @@ export interface Navbar {
  */
 export interface NavbarSelect<T extends boolean = true> {
   logo?: T;
+  ctaText?: T;
+  ctaUrl?: T;
   links?:
     | T
     | {
