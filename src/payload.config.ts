@@ -16,6 +16,8 @@ import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
 import { TopBanners } from './collections/TopBanners'
 import { Navbar } from './globals/Navbar'
+import { Footer } from './globals/Footer'
+import { FloatingMenu } from './globals/FloatingMenu'
 import { seedDatabase } from './scripts/seed'
 
 const filename = fileURLToPath(import.meta.url)
@@ -29,7 +31,7 @@ export default buildConfig({
     },
   },
   collections: [Users, Media, Pages, TopBanners],
-  globals: [Navbar],
+  globals: [Navbar, Footer, FloatingMenu],
   localization: {
     locales: ['en', 'vi'],
     defaultLocale: 'en',

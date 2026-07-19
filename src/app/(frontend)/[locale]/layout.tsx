@@ -3,6 +3,8 @@ import React from 'react'
 import '../global.css'
 import { Navbar } from '@/components/Navbar'
 import { TopBanner } from '@/components/TopBanner'
+import { Footer } from '@/components/Footer'
+import { FloatingMenu } from '@/components/FloatingMenu'
 
 export const metadata = {
   description: 'A blank template using Payload in a Next.js app.',
@@ -22,6 +24,8 @@ export default async function RootLayout(props: {
         <TopBanner locale={locale} />
         <Navbar locale={locale} />
         <main>{children}</main>
+        <Footer locale={locale} />
+        <FloatingMenu locale={locale} />
       </body>
     </html>
   )

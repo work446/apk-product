@@ -2,12 +2,16 @@ import type { Payload } from 'payload'
 import { seedNavbar } from './seedNavbar'
 import { seedPages } from './seedPages'
 import { seedTopBanners } from './seedTopBanners'
+import { seedFooter } from './seedFooter'
+import { seedFloatingMenu } from './seedFloatingMenu'
 
 export const seedDatabase = async (payload: Payload) => {
   payload.logger.info('🚀 Starting modular database seed...')
 
   await seedNavbar(payload)
   await seedTopBanners(payload)
+  await seedFooter(payload)
+  await seedFloatingMenu(payload)
   // await seedUsers(payload)
   await seedPages(payload)
 

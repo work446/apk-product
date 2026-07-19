@@ -93,9 +93,13 @@ export interface Config {
   fallbackLocale: ('false' | 'none' | 'null') | false | null | ('en' | 'vi') | ('en' | 'vi')[];
   globals: {
     navbar: Navbar;
+    footer: Footer;
+    'floating-menu': FloatingMenu;
   };
   globalsSelect: {
     navbar: NavbarSelect<false> | NavbarSelect<true>;
+    footer: FooterSelect<false> | FooterSelect<true>;
+    'floating-menu': FloatingMenuSelect<false> | FloatingMenuSelect<true>;
   };
   locale: 'en' | 'vi';
   widgets: {
@@ -227,6 +231,34 @@ export interface Page {
         blockType: 'hero';
       }
     | ExploreProductsBlock
+    | TechnicalSupportBlock
+    | WidelyUsedBlock
+    | {
+        stats: {
+          icon: 'building' | 'users' | 'handshake' | 'thumbs-up';
+          /**
+           * E.g., 15+, 500+, 98%
+           */
+          value: string;
+          /**
+           * E.g., YEARS EXPERIENCE
+           */
+          label: string;
+          id?: string | null;
+        }[];
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'statistics';
+      }
+    | {
+        title: string;
+        subtitle: string;
+        buttonText: string;
+        buttonLink: string;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'callToAction';
+      }
   )[];
   updatedAt: string;
   createdAt: string;
@@ -255,6 +287,51 @@ export interface ExploreProductsBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'exploreProducts';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TechnicalSupportBlock".
+ */
+export interface TechnicalSupportBlock {
+  subtitle: string;
+  title: string;
+  description: string;
+  features: {
+    featureText: string;
+    id?: string | null;
+  }[];
+  linkGroup: {
+    text: string;
+    url: string;
+  };
+  sliderImages?:
+    | {
+        image: number | Media;
+        /**
+         * Optional: Image for screens below 768px. Falls back to the main image if not provided.
+         */
+        mobileImage?: (number | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'technicalSupport';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "WidelyUsedBlock".
+ */
+export interface WidelyUsedBlock {
+  title: string;
+  items: {
+    icon: 'Factory' | 'Building2' | 'School' | 'HeartPulse' | 'ShoppingBag' | 'Home' | 'Store' | 'Warehouse';
+    label: string;
+    id?: string | null;
+  }[];
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'widelyUsed';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -454,6 +531,32 @@ export interface PagesSelect<T extends boolean = true> {
               blockName?: T;
             };
         exploreProducts?: T | ExploreProductsBlockSelect<T>;
+        technicalSupport?: T | TechnicalSupportBlockSelect<T>;
+        widelyUsed?: T | WidelyUsedBlockSelect<T>;
+        statistics?:
+          | T
+          | {
+              stats?:
+                | T
+                | {
+                    icon?: T;
+                    value?: T;
+                    label?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        callToAction?:
+          | T
+          | {
+              title?: T;
+              subtitle?: T;
+              buttonText?: T;
+              buttonLink?: T;
+              id?: T;
+              blockName?: T;
+            };
       };
   updatedAt?: T;
   createdAt?: T;
@@ -473,6 +576,52 @@ export interface ExploreProductsBlockSelect<T extends boolean = true> {
         description?: T;
         link?: T;
         linkText?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TechnicalSupportBlock_select".
+ */
+export interface TechnicalSupportBlockSelect<T extends boolean = true> {
+  subtitle?: T;
+  title?: T;
+  description?: T;
+  features?:
+    | T
+    | {
+        featureText?: T;
+        id?: T;
+      };
+  linkGroup?:
+    | T
+    | {
+        text?: T;
+        url?: T;
+      };
+  sliderImages?:
+    | T
+    | {
+        image?: T;
+        mobileImage?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "WidelyUsedBlock_select".
+ */
+export interface WidelyUsedBlockSelect<T extends boolean = true> {
+  title?: T;
+  items?:
+    | T
+    | {
+        icon?: T;
+        label?: T;
         id?: T;
       };
   id?: T;
@@ -555,6 +704,58 @@ export interface Navbar {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "footer".
+ */
+export interface Footer {
+  id: number;
+  companyDescription: string;
+  contact: {
+    address: string;
+    phone: string;
+    email: string;
+    workingHours: string;
+  };
+  quickLinks?:
+    | {
+        label: string;
+        url: string;
+        id?: string | null;
+      }[]
+    | null;
+  socialLinks?:
+    | {
+        platform: 'facebook' | 'twitter' | 'linkedin' | 'youtube' | 'instagram' | 'zalo';
+        url: string;
+        id?: string | null;
+      }[]
+    | null;
+  copyright: string;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "floating-menu".
+ */
+export interface FloatingMenu {
+  id: number;
+  menuItems?:
+    | {
+        icon: 'zalo' | 'phone' | 'messenger' | 'mail';
+        label: string;
+        url: string;
+        /**
+         * Optional hex color for the icon background (e.g. #0068ff for Zalo). Leave blank for default red.
+         */
+        color?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "navbar_select".
  */
 export interface NavbarSelect<T extends boolean = true> {
@@ -566,6 +767,57 @@ export interface NavbarSelect<T extends boolean = true> {
     | {
         label?: T;
         url?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "footer_select".
+ */
+export interface FooterSelect<T extends boolean = true> {
+  companyDescription?: T;
+  contact?:
+    | T
+    | {
+        address?: T;
+        phone?: T;
+        email?: T;
+        workingHours?: T;
+      };
+  quickLinks?:
+    | T
+    | {
+        label?: T;
+        url?: T;
+        id?: T;
+      };
+  socialLinks?:
+    | T
+    | {
+        platform?: T;
+        url?: T;
+        id?: T;
+      };
+  copyright?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "floating-menu_select".
+ */
+export interface FloatingMenuSelect<T extends boolean = true> {
+  menuItems?:
+    | T
+    | {
+        icon?: T;
+        label?: T;
+        url?: T;
+        color?: T;
         id?: T;
       };
   updatedAt?: T;

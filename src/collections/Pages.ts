@@ -2,6 +2,10 @@ import type { CollectionConfig } from 'payload'
 import { Hero } from '../blocks/Hero'
 
 import { ExploreProducts } from '../blocks/ExploreProducts/config'
+import { TechnicalSupport } from '../blocks/TechnicalSupport/config'
+import { WidelyUsed } from '../blocks/WidelyUsed/config'
+import { StatisticsBlock } from '../blocks/Statistics/config'
+import { CallToActionBlock } from '../blocks/CallToAction/config'
 
 export const Pages: CollectionConfig = {
   slug: 'pages',
@@ -29,7 +33,7 @@ export const Pages: CollectionConfig = {
       name: 'layout',
       type: 'blocks',
       required: true,
-      blocks: [Hero, ExploreProducts],
+      blocks: [Hero, ExploreProducts, TechnicalSupport, WidelyUsed, StatisticsBlock, CallToActionBlock],
     },
   ],
 }

@@ -1,10 +1,18 @@
 import React from 'react'
 import { HeroBlock } from './Hero/Component'
 import { ExploreProductsBlock } from './ExploreProducts/Component'
+import { TechnicalSupportBlock } from './TechnicalSupport/Component'
+import { WidelyUsedBlock } from './WidelyUsed/Component'
+import { StatisticsBlock } from './Statistics/Component'
+import { CallToActionBlock } from './CallToAction/Component'
 
 const components = {
   hero: HeroBlock,
   exploreProducts: ExploreProductsBlock,
+  technicalSupport: TechnicalSupportBlock,
+  widelyUsed: WidelyUsedBlock,
+  statistics: StatisticsBlock,
+  callToAction: CallToActionBlock,
 }
 
 export const RenderBlocks: React.FC<{
