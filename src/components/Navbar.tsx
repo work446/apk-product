@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import { LocaleSwitcher } from './LocaleSwitcher'
+import { MobileMenu } from './MobileMenu'
 import * as LucideIcons from 'lucide-react'
 
 export async function Navbar({ locale = 'en' }: { locale?: 'en' | 'vi' }) {
@@ -26,7 +27,7 @@ export async function Navbar({ locale = 'en' }: { locale?: 'en' | 'vi' }) {
     <>
       {/* Spacer to prevent Navbar from hiding under fixed TopBanner */}
       <div className="h-10 md:h-9 w-full shrink-0" aria-hidden="true" />
-      <header className="sticky top-10 md:top-9 z-50 w-full border-b bg-white backdrop-blur">
+      <header className="sticky top-10 md:top-9 z-30 w-full border-b bg-white backdrop-blur">
       <div className="mx-auto flex h-16 items-center justify-between px-4 lg:px-10">
         {/* Brand/Logo Section */}
         <div className="flex-shrink-0 flex items-center">
@@ -91,8 +92,9 @@ export async function Navbar({ locale = 'en' }: { locale?: 'en' | 'vi' }) {
           </Link>
 
           {/* Interactive Language Selector Interface */}
-          <div className="pl-2 border-l border-gray-200 relative z-[60] pointer-events-auto">
+          <div className="pl-2 border-l border-gray-200 relative z-[60] pointer-events-auto flex items-center space-x-2">
             <LocaleSwitcher currentLocale={locale} />
+            <MobileMenu links={links} ctaText={navbar?.ctaText} ctaUrl={navbar?.ctaUrl} />
           </div>
         </div>
       </div>

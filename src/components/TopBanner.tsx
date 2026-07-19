@@ -18,7 +18,7 @@ export const TopBanner = async ({ locale = 'en' }: { locale?: 'en' | 'vi' }) => 
   const activeBanner = banners.docs[0]
 
   return (
-    <div className="fixed top-0 left-0 w-full z-[60] bg-primary text-primary-foreground py-2 px-2 sm:px-4 text-[11px] sm:text-xs md:text-sm font-medium min-h-10 md:min-h-9 flex flex-col justify-center">
+    <div className="fixed top-0 left-0 w-full z-40 bg-primary text-primary-foreground py-2 px-2 sm:px-4 text-[11px] sm:text-xs md:text-sm font-medium min-h-10 md:min-h-9 flex flex-col justify-center">
       <div className="container mx-auto flex flex-row flex-nowrap justify-between items-center gap-1 md:gap-2 w-full">
         {/* Left Info (Hidden on Mobile) */}
         <div className="hidden md:flex items-center gap-2 shrink-0">
