@@ -3,8 +3,9 @@ import config from '@/payload.config'
 import { RenderBlocks } from '@/blocks/RenderBlocks'
 import { notFound } from 'next/navigation'
 
-export default async function HomePage(props: { params: Promise<{ locale: 'en' | 'vi' }> }) {
-  const { locale } = await props.params
+export default async function HomePage(props: { params: Promise<{ locale: string }> }) {
+  const { locale: rawLocale } = await props.params
+  const locale = rawLocale as 'en' | 'vi'
 
   const payloadConfig = await config
   const payload = await getPayload({ config: payloadConfig })

@@ -27,7 +27,7 @@ export const MobileMenu = ({
             </button>
           }
         ></SheetTrigger>
-        <SheetContent side="right" className="w-[300px] sm:w-[400px] p-0 flex flex-col bg-white">
+        <SheetContent side="top" className="w-full p-0 flex flex-col bg-white max-h-[80vh]">
           <SheetHeader className="p-6 text-left border-b">
             <SheetTitle>
               <div className="relative w-32 h-10 mix-blend-multiply">

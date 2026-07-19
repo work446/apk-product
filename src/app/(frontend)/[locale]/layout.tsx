@@ -13,10 +13,11 @@ export const metadata = {
 
 export default async function RootLayout(props: {
   children: React.ReactNode
-  params: Promise<{ locale: 'en' | 'vi' }>
+  params: Promise<{ locale: string }>
 }) {
   const { children, params } = props
-  const { locale } = await params
+  const { locale: rawLocale } = await params
+  const locale = rawLocale as 'en' | 'vi'
 
   return (
     <html lang={locale} suppressHydrationWarning>
