@@ -6,12 +6,17 @@ import { TechnicalSupport } from '../blocks/TechnicalSupport/config'
 import { WidelyUsed } from '../blocks/WidelyUsed/config'
 import { StatisticsBlock } from '../blocks/Statistics/config'
 import { CallToActionBlock } from '../blocks/CallToAction/config'
+import { revalidatePage, revalidatePageDelete } from '../hooks/revalidatePage'
 
 export const Pages: CollectionConfig = {
   slug: 'pages',
   admin: {
     useAsTitle: 'title',
     defaultColumns: ['title', 'slug', 'updatedAt'],
+  },
+  hooks: {
+    afterChange: [revalidatePage],
+    afterDelete: [revalidatePageDelete],
   },
   versions: {
     drafts: {

@@ -22,7 +22,10 @@ export async function Navbar({ locale = 'en' }: { locale?: 'en' | 'vi' }) {
     return null
   }
 
-  const links = navbar?.links || []
+  const rawCtaUrl = navbar?.ctaUrl && navbar.ctaUrl !== '#products' ? navbar.ctaUrl : '/products'
+  const cleanCtaUrl = rawCtaUrl.replace(/^\/(en|vi)(?=[/?#]|$)/, '')
+  const normalizedCtaUrl = cleanCtaUrl.startsWith('/') ? cleanCtaUrl : `/${cleanCtaUrl}`
+  const ctaHref = `/${locale}${normalizedCtaUrl === '/' ? '' : normalizedCtaUrl}`
 
   return (
     <>
@@ -54,7 +57,7 @@ export async function Navbar({ locale = 'en' }: { locale?: 'en' | 'vi' }) {
         {/* Action Buttons */}
         <div className="flex items-center space-x-4">
           <Link 
-            href={navbar?.ctaUrl || '#products'}
+            href={ctaHref}
             prefetch={true}
             className="hidden md:flex bg-[#FFC20E] hover:bg-[#FFC20E] hover:brightness-110 text-black uppercase tracking-wide rounded px-6 h-9 text-[13px] transition-all items-center justify-center font-medium"
           >
@@ -65,7 +68,7 @@ export async function Navbar({ locale = 'en' }: { locale?: 'en' | 'vi' }) {
           {/* Interactive Language Selector Interface */}
           <div className="pl-2 border-l border-gray-200 relative z-[60] pointer-events-auto flex items-center space-x-2">
             <LocaleSwitcher currentLocale={locale} />
-            <MobileMenu links={links} ctaText={navbar?.ctaText} ctaUrl={navbar?.ctaUrl} locale={locale} />
+            <MobileMenu links={links} ctaText={navbar?.ctaText} ctaUrl={ctaHref} locale={locale} />
           </div>
         </div>
       </div>

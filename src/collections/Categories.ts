@@ -6,11 +6,16 @@ import { WidelyUsed } from '../blocks/WidelyUsed/config'
 import { StatisticsBlock } from '../blocks/Statistics/config'
 import { CallToActionBlock } from '../blocks/CallToAction/config'
 import { CategoryHeader } from '../blocks/CategoryHeader/config'
+import { revalidateCategory, revalidateCategoryDelete } from '../hooks/revalidateCategory'
 
 export const Categories: CollectionConfig = {
   slug: 'categories',
   admin: {
     useAsTitle: 'title',
+  },
+  hooks: {
+    afterChange: [revalidateCategory],
+    afterDelete: [revalidateCategoryDelete],
   },
   access: {
     read: () => true,

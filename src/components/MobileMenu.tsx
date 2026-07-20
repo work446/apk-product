@@ -92,12 +92,10 @@ export const MobileMenu = ({
 
           <div className="p-6 mt-auto border-t">
             <Link
-              href={`/${locale}${stripLocale(ctaUrl || '#products') === '/' ? '' : stripLocale(ctaUrl || '#products')}`}
+              href={ctaUrl || `/${locale}/products`}
               onClick={() => {
                 setOpen(false)
-                if (!(ctaUrl || '#products').startsWith('#')) {
-                  window.scrollTo({ top: 0, behavior: 'smooth' })
-                }
+                window.scrollTo({ top: 0, behavior: 'smooth' })
               }}
               className="bg-[#c61e24] hover:bg-[#a51920] transition-colors text-white uppercase tracking-wide rounded w-full h-12 text-[14px] font-bold flex items-center justify-center"
             >

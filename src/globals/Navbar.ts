@@ -1,7 +1,11 @@
 import type { GlobalConfig } from 'payload'
+import { revalidateGlobal } from '../hooks/revalidateGlobal'
 
 export const Navbar: GlobalConfig = {
   slug: 'navbar',
+  hooks: {
+    afterChange: [revalidateGlobal],
+  },
   access: {
     read: () => true,
   },
@@ -23,7 +27,7 @@ export const Navbar: GlobalConfig = {
       name: 'ctaUrl',
       type: 'text',
       required: false,
-      defaultValue: '#products',
+      defaultValue: '/products',
     },
     {
       name: 'links',

@@ -1,9 +1,15 @@
 import type { CollectionConfig } from 'payload'
+import { revalidateProduct, revalidateProductDelete } from '../hooks/revalidateProduct'
 
 export const Products: CollectionConfig = {
   slug: 'products',
   admin: {
     useAsTitle: 'productTitle',
+    defaultColumns: ['productTitle', 'productName', 'company', 'category', 'order'],
+  },
+  hooks: {
+    afterChange: [revalidateProduct],
+    afterDelete: [revalidateProductDelete],
   },
   versions: {
     drafts: {

@@ -1,7 +1,11 @@
 import type { GlobalConfig } from 'payload'
+import { revalidateGlobal } from '../hooks/revalidateGlobal'
 
 export const FloatingMenu: GlobalConfig = {
   slug: 'floating-menu',
+  hooks: {
+    afterChange: [revalidateGlobal],
+  },
   access: {
     read: () => true,
   },
