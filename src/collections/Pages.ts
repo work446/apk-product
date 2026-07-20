@@ -13,6 +13,13 @@ export const Pages: CollectionConfig = {
     useAsTitle: 'title',
     defaultColumns: ['title', 'slug', 'updatedAt'],
   },
+  versions: {
+    drafts: {
+      autosave: {
+        interval: 375,
+      },
+    },
+  },
   fields: [
     {
       name: 'title',
@@ -33,7 +40,14 @@ export const Pages: CollectionConfig = {
       name: 'layout',
       type: 'blocks',
       required: true,
-      blocks: [Hero, ExploreProducts, TechnicalSupport, WidelyUsed, StatisticsBlock, CallToActionBlock],
+      blocks: [
+        Hero,
+        ExploreProducts,
+        TechnicalSupport,
+        WidelyUsed,
+        StatisticsBlock,
+        CallToActionBlock,
+      ],
     },
   ],
 }

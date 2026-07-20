@@ -7,6 +7,8 @@ import { RenderBlocks } from '@/blocks/RenderBlocks'
 import { ProductSearchAndFilter } from './ProductSearchAndFilter'
 import { ProductGridContainer } from './ProductGridAnimation'
 
+import { draftMode } from 'next/headers'
+
 export const ProductsContent = async ({
   searchParams,
   locale,
@@ -17,10 +19,13 @@ export const ProductsContent = async ({
   const payloadConfig = await config
   const payload = await getPayload({ config: payloadConfig })
 
+  const { isEnabled: draft } = await draftMode().catch(() => ({ isEnabled: true }))
+
   // Fetch categories
   const categoriesRes = await payload.find({
     collection: 'categories',
     locale,
+    draft,
     sort: 'order',
     limit: 100,
   })
@@ -60,6 +65,7 @@ export const ProductsContent = async ({
     collection: 'products',
     locale,
     where: where.and.length > 0 ? where : undefined,
+    draft,
     sort: 'order',
     limit: 100,
   })

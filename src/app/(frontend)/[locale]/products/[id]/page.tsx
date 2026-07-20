@@ -9,6 +9,7 @@ import { ProductSpecifications } from '../components/ProductSpecifications'
 import Link from 'next/link'
 import { ChevronLeft } from 'lucide-react'
 import type { Metadata } from 'next'
+import { draftMode } from 'next/headers'
 import { generateMeta } from '@/utilities/generateMeta'
 
 export async function generateMetadata(props: {
@@ -47,12 +48,15 @@ export default async function ProductPage(props: {
 
   const payload = await getPayload({ config: configPromise })
   
+  const { isEnabled: draft } = await draftMode().catch(() => ({ isEnabled: true }))
+  
   let product: any
   try {
     product = await payload.findByID({
       collection: 'products',
       id: id,
       locale: locale as any,
+      draft,
     })
   } catch (error) {
     console.error('Error fetching product:', error)

@@ -5,6 +5,13 @@ export const Products: CollectionConfig = {
   admin: {
     useAsTitle: 'productTitle',
   },
+  versions: {
+    drafts: {
+      autosave: {
+        interval: 375,
+      },
+    },
+  },
   access: {
     read: () => true,
   },
@@ -48,7 +55,8 @@ export const Products: CollectionConfig = {
       type: 'textarea',
       localized: true,
       admin: {
-        description: 'Short product description displayed on the single product page under the title.',
+        description:
+          'Short product description displayed on the single product page under the title.',
       },
     },
     {

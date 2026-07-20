@@ -5,6 +5,7 @@ import { Navbar } from '@/components/Navbar'
 import { TopBanner } from '@/components/TopBanner'
 import { Footer } from '@/components/Footer'
 import { FloatingMenu } from '@/components/FloatingMenu'
+import { LivePreviewListener } from '@/components/LivePreviewListener'
 import { MotionProvider } from '@/providers/MotionProvider'
 import { Inter } from 'next/font/google'
 import type { Metadata } from 'next'
@@ -39,6 +40,7 @@ export default async function RootLayout(props: {
     <html lang={locale} className={`${inter.variable} ${inter.className}`} suppressHydrationWarning>
       <body className="antialiased">
         <MotionProvider>
+          <LivePreviewListener />
           <TopBanner locale={locale} />
           <Navbar locale={locale} />
           <main>{children}</main>

@@ -4,8 +4,10 @@ import config from '@/payload.config'
 import { RenderBlocks } from '@/blocks/RenderBlocks'
 import { notFound } from 'next/navigation'
 import { generateMeta } from '@/utilities/generateMeta'
-
-export async function generateMetadata(props: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+import { draftMode } from 'next/headers'
+export async function generateMetadata(props: {
+  params: Promise<{ locale: string }>
+}): Promise<Metadata> {
   const { locale: rawLocale } = await props.params
   const locale = rawLocale as 'en' | 'vi'
 
@@ -32,6 +34,8 @@ export default async function HomePage(props: { params: Promise<{ locale: string
   const payloadConfig = await config
   const payload = await getPayload({ config: payloadConfig })
 
+  const { isEnabled: draft } = await draftMode().catch(() => ({ isEnabled: true }))
+
   // Fetch the homepage
   const { docs } = await payload.find({
     collection: 'pages',
@@ -41,7 +45,9 @@ export default async function HomePage(props: { params: Promise<{ locale: string
       },
     },
     locale, // Pass locale to fetch localized data
+    draft,
     limit: 1,
+    depth: 2,
   })
 
   const page = docs[0]

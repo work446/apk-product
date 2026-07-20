@@ -23,6 +23,21 @@ const dirname = path.dirname(filename)
 export default buildConfig({
   admin: {
     user: Users.slug,
+    livePreview: {
+      url: ({ data, req, collectionConfig }) => {
+        const serverURL = process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'
+        const locale = req.locale || 'en'
+        
+        if (collectionConfig?.slug === 'pages') {
+          return `${serverURL}/${locale}${data.slug === 'home' ? '' : `/${data.slug}`}`
+        }
+        if (collectionConfig?.slug === 'products') {
+          return `${serverURL}/${locale}/products/${data.id}`
+        }
+        return `${serverURL}/${locale}`
+      },
+      collections: ['pages', 'products'],
+    },
     importMap: {
       baseDir: path.resolve(dirname),
     },
