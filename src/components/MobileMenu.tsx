@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import Link from 'next/link'
 import { Menu, ChevronRight } from 'lucide-react'
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
+import { usePathname } from 'next/navigation'
 import Image from 'next/image'
 
 export const MobileMenu = ({
@@ -16,6 +17,7 @@ export const MobileMenu = ({
   ctaUrl: string
 }) => {
   const [open, setOpen] = useState(false)
+  const pathname = usePathname()
 
   return (
     <div className="lg:hidden flex items-center">
@@ -44,15 +46,30 @@ export const MobileMenu = ({
 
           <div className="flex-1 overflow-y-auto px-6 py-4 flex flex-col gap-4">
             {links.map((link: any, i: number) => {
+              let isActive = false
+              const normalizedPath = pathname.replace(/\/$/, '') || '/'
+              const isHomeLink = link.url === '/' || link.url === '/en' || link.url === '/vi'
+              
+              if (isHomeLink) {
+                isActive = normalizedPath === '/' || normalizedPath === '/en' || normalizedPath === '/vi'
+              } else {
+                isActive = normalizedPath.startsWith(link.url)
+              }
+              
               return (
                 <Link
                   key={i}
                   href={link.url}
-                  onClick={() => setOpen(false)}
-                  className="flex items-center justify-between w-full uppercase text-[14px] font-bold tracking-wider py-3 border-b border-gray-100 last:border-0"
+                  onClick={() => {
+                    setOpen(false)
+                    window.scrollTo({ top: 0, behavior: 'smooth' })
+                  }}
+                  className={`flex items-center justify-between w-full uppercase text-[14px] font-bold tracking-wider py-3 border-b border-gray-100 last:border-0 ${
+                    isActive ? 'text-red-600' : 'text-gray-900 hover:text-red-600'
+                  }`}
                 >
                   {link.label}
-                  <ChevronRight className="w-4 h-4 text-gray-400" />
+                  <ChevronRight className={`w-4 h-4 ${isActive ? 'text-red-600' : 'text-gray-400'}`} />
                 </Link>
               )
             })}
@@ -61,7 +78,10 @@ export const MobileMenu = ({
           <div className="p-6 mt-auto border-t">
             <Link
               href={ctaUrl || '#products'}
-              onClick={() => setOpen(false)}
+              onClick={() => {
+                setOpen(false)
+                window.scrollTo({ top: 0, behavior: 'smooth' })
+              }}
               className="bg-[#c61e24] hover:bg-[#a51920] transition-colors text-white uppercase tracking-wide rounded w-full h-12 text-[14px] font-bold flex items-center justify-center"
             >
               {ctaText || 'See Products'}

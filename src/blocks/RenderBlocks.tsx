@@ -5,6 +5,7 @@ import { TechnicalSupportBlock } from './TechnicalSupport/Component'
 import { WidelyUsedBlock } from './WidelyUsed/Component'
 import { StatisticsBlock } from './Statistics/Component'
 import { CallToActionBlock } from './CallToAction/Component'
+import { CategoryHeaderBlock } from './CategoryHeader/Component'
 
 const components = {
   hero: HeroBlock,
@@ -13,6 +14,7 @@ const components = {
   widelyUsed: WidelyUsedBlock,
   statistics: StatisticsBlock,
   callToAction: CallToActionBlock,
+  categoryHeader: CategoryHeaderBlock,
 }
 
 export const RenderBlocks: React.FC<{

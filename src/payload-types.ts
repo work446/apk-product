@@ -71,6 +71,8 @@ export interface Config {
     media: Media;
     pages: Page;
     'top-banners': TopBanner;
+    products: Product;
+    categories: Category;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -82,6 +84,8 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     pages: PagesSelect<false> | PagesSelect<true>;
     'top-banners': TopBannersSelect<false> | TopBannersSelect<true>;
+    products: ProductsSelect<false> | ProductsSelect<true>;
+    categories: CategoriesSelect<false> | CategoriesSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -161,12 +165,6 @@ export interface User {
 export interface Media {
   id: number;
   alt: string;
-  imagekit?: {
-    fileId?: string | null;
-    thumbnailUrl?: string | null;
-    url?: string | null;
-    AITags?: string | null;
-  };
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -352,6 +350,192 @@ export interface TopBanner {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "products".
+ */
+export interface Product {
+  id: number;
+  /**
+   * Set a number to define the display order (lower numbers appear first).
+   */
+  order?: number | null;
+  /**
+   * Internal product name/model (e.g. APK.SC)
+   */
+  productName: string;
+  /**
+   * Display title of the product (e.g. Emergency Light)
+   */
+  productTitle: string;
+  /**
+   * Company/Brand slug (e.g. apk-exit-and-emergency-light)
+   */
+  company: string;
+  /**
+   * Optional badge text (e.g. "1 YEAR WARRANTY", "NEW"). Displays on the top right of the product image.
+   */
+  badge?: string | null;
+  category?: (number | null) | Category;
+  /**
+   * Up to 3 key features to display on the product card (e.g. 2x 1.5W LED, Up to 3 Hours).
+   */
+  cardFeatures?:
+    | {
+        /**
+         * Select a default icon.
+         */
+        icon?:
+          ('Lightbulb' | 'Clock' | 'Shield' | 'Battery' | 'Zap' | 'Droplet' | 'Thermometer' | 'Check' | 'Star') | null;
+        /**
+         * Optional: Upload a custom icon (SVG/PNG) to override the default selected icon.
+         */
+        customIcon?: (number | null) | Media;
+        text: string;
+        id?: string | null;
+      }[]
+    | null;
+  images?:
+    | {
+        image: number | Media;
+        id?: string | null;
+      }[]
+    | null;
+  imageAlt?: string | null;
+  characteristics?:
+    | {
+        characteristic: string;
+        id?: string | null;
+      }[]
+    | null;
+  specifications?:
+    | {
+        key: string;
+        value: string;
+        id?: string | null;
+      }[]
+    | null;
+  downloads?: {
+    catalogue?: string | null;
+    manual?: string | null;
+    certificate?: string | null;
+  };
+  /**
+   * YouTube video URL for the product
+   */
+  youtubeUrl?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "categories".
+ */
+export interface Category {
+  id: number;
+  /**
+   * Set a number to define the display order (lower numbers appear first).
+   */
+  order?: number | null;
+  title: string;
+  slug: string;
+  /**
+   * Short description of the category to show at the top of the product listing.
+   */
+  description?: string | null;
+  /**
+   * Add blocks that will appear above the products list for this category.
+   */
+  layout?:
+    | (
+        | CategoryHeaderBlock
+        | {
+            tagline: string;
+            headlineBlack: string;
+            headlineRed: string;
+            subtitle: string;
+            features?:
+              | {
+                  icon: 'Shield' | 'Tag' | 'Wrench';
+                  title: string;
+                  description: string;
+                  id?: string | null;
+                }[]
+              | null;
+            actions?:
+              | {
+                  label: string;
+                  url: string;
+                  style: 'primary' | 'secondary' | 'ghost';
+                  id?: string | null;
+                }[]
+              | null;
+            sliderImages?:
+              | {
+                  image: number | Media;
+                  /**
+                   * Optional: Image for screens below 768px. Falls back to the main image if not provided.
+                   */
+                  mobileImage?: (number | null) | Media;
+                  id?: string | null;
+                }[]
+              | null;
+            trustBanner?:
+              | {
+                  icon: 'ShieldCheck' | 'Truck' | 'Package' | 'Award' | 'Headset';
+                  text: string;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'hero';
+          }
+        | ExploreProductsBlock
+        | TechnicalSupportBlock
+        | WidelyUsedBlock
+        | {
+            stats: {
+              icon: 'building' | 'users' | 'handshake' | 'thumbs-up';
+              /**
+               * E.g., 15+, 500+, 98%
+               */
+              value: string;
+              /**
+               * E.g., YEARS EXPERIENCE
+               */
+              label: string;
+              id?: string | null;
+            }[];
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'statistics';
+          }
+        | {
+            title: string;
+            subtitle: string;
+            buttonText: string;
+            buttonLink: string;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'callToAction';
+          }
+      )[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CategoryHeaderBlock".
+ */
+export interface CategoryHeaderBlock {
+  title: string;
+  description?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'categoryHeader';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -389,6 +573,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'top-banners';
         value: number | TopBanner;
+      } | null)
+    | ({
+        relationTo: 'products';
+        value: number | Product;
+      } | null)
+    | ({
+        relationTo: 'categories';
+        value: number | Category;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -460,14 +652,6 @@ export interface UsersSelect<T extends boolean = true> {
  */
 export interface MediaSelect<T extends boolean = true> {
   alt?: T;
-  imagekit?:
-    | T
-    | {
-        fileId?: T;
-        thumbnailUrl?: T;
-        url?: T;
-        AITags?: T;
-      };
   updatedAt?: T;
   createdAt?: T;
   url?: T;
@@ -642,6 +826,150 @@ export interface TopBannersSelect<T extends boolean = true> {
   phoneNumber?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "products_select".
+ */
+export interface ProductsSelect<T extends boolean = true> {
+  order?: T;
+  productName?: T;
+  productTitle?: T;
+  company?: T;
+  badge?: T;
+  category?: T;
+  cardFeatures?:
+    | T
+    | {
+        icon?: T;
+        customIcon?: T;
+        text?: T;
+        id?: T;
+      };
+  images?:
+    | T
+    | {
+        image?: T;
+        id?: T;
+      };
+  imageAlt?: T;
+  characteristics?:
+    | T
+    | {
+        characteristic?: T;
+        id?: T;
+      };
+  specifications?:
+    | T
+    | {
+        key?: T;
+        value?: T;
+        id?: T;
+      };
+  downloads?:
+    | T
+    | {
+        catalogue?: T;
+        manual?: T;
+        certificate?: T;
+      };
+  youtubeUrl?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "categories_select".
+ */
+export interface CategoriesSelect<T extends boolean = true> {
+  order?: T;
+  title?: T;
+  slug?: T;
+  description?: T;
+  layout?:
+    | T
+    | {
+        categoryHeader?: T | CategoryHeaderBlockSelect<T>;
+        hero?:
+          | T
+          | {
+              tagline?: T;
+              headlineBlack?: T;
+              headlineRed?: T;
+              subtitle?: T;
+              features?:
+                | T
+                | {
+                    icon?: T;
+                    title?: T;
+                    description?: T;
+                    id?: T;
+                  };
+              actions?:
+                | T
+                | {
+                    label?: T;
+                    url?: T;
+                    style?: T;
+                    id?: T;
+                  };
+              sliderImages?:
+                | T
+                | {
+                    image?: T;
+                    mobileImage?: T;
+                    id?: T;
+                  };
+              trustBanner?:
+                | T
+                | {
+                    icon?: T;
+                    text?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        exploreProducts?: T | ExploreProductsBlockSelect<T>;
+        technicalSupport?: T | TechnicalSupportBlockSelect<T>;
+        widelyUsed?: T | WidelyUsedBlockSelect<T>;
+        statistics?:
+          | T
+          | {
+              stats?:
+                | T
+                | {
+                    icon?: T;
+                    value?: T;
+                    label?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        callToAction?:
+          | T
+          | {
+              title?: T;
+              subtitle?: T;
+              buttonText?: T;
+              buttonLink?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CategoryHeaderBlock_select".
+ */
+export interface CategoryHeaderBlockSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  id?: T;
+  blockName?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

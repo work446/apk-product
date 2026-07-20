@@ -4,17 +4,14 @@ import path from 'path'
 import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
 import sharp from 'sharp'
-import imagekitPluginPkg from 'payloadcms-plugin-imagekit'
 
-// Handle ESM/CJS interop for the plugin
-const imagekitPlugin = typeof imagekitPluginPkg === 'function' 
-  ? imagekitPluginPkg 
-  : (imagekitPluginPkg as any).default
 
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
 import { TopBanners } from './collections/TopBanners'
+import { Products } from './collections/Products'
+import { Categories } from './collections/Categories'
 import { Navbar } from './globals/Navbar'
 import { Footer } from './globals/Footer'
 import { FloatingMenu } from './globals/FloatingMenu'
@@ -30,7 +27,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media, Pages, TopBanners],
+  collections: [Users, Media, Pages, TopBanners, Products, Categories],
   globals: [Navbar, Footer, FloatingMenu],
   localization: {
     locales: ['en', 'vi'],
@@ -49,21 +46,26 @@ export default buildConfig({
   }),
   sharp,
   plugins: [
-    imagekitPlugin({
-      config: {
-        publicKey: process.env.IMAGEKIT_PUBLIC_KEY || 'your_public_api_key',
-        privateKey: process.env.IMAGEKIT_PRIVATE_KEY || 'your_private_api_key',
-        endpoint: process.env.IMAGEKIT_ENDPOINT || 'https://ik.imagekit.io/your_imagekit_id/',
-      },
-      collections: {
-        media: {
-          uploadOption: {
-            folder: 'apk_product_media',
-          },
-          savedProperties: ['url', 'AITags'],
-        },
-      },
-    }),
+    ...(process.argv.includes('generate:types')
+      ? []
+      : [
+          // @ts-ignore
+          (await import('payloadcms-plugin-imagekit')).default({
+            config: {
+              publicKey: process.env.IMAGEKIT_PUBLIC_KEY || 'your_public_api_key',
+              privateKey: process.env.IMAGEKIT_PRIVATE_KEY || 'your_private_api_key',
+              endpoint: process.env.IMAGEKIT_ENDPOINT || 'https://ik.imagekit.io/your_imagekit_id/',
+            },
+            collections: {
+              media: {
+                uploadOption: {
+                  folder: 'apk_product_media',
+                },
+                savedProperties: ['url', 'AITags'],
+              },
+            },
+          }),
+        ]),
   ],
   async onInit(payload) {
     // Keeps payload.config.ts clean!

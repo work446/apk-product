@@ -5,6 +5,7 @@ import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import { LocaleSwitcher } from './LocaleSwitcher'
 import { MobileMenu } from './MobileMenu'
+import { NavbarLinks } from './NavbarLinks'
 import * as LucideIcons from 'lucide-react'
 
 export async function Navbar({ locale = 'en' }: { locale?: 'en' | 'vi' }) {
@@ -47,38 +48,7 @@ export async function Navbar({ locale = 'en' }: { locale?: 'en' | 'vi' }) {
 
         {/* Dynamic Navigation Links */}
         <div className="hidden lg:flex flex-1 items-center justify-center space-x-8">
-          <nav className="flex items-center space-x-8">
-            {links.map((link: any, i: number) => {
-              // Simulating the active state on the first item to match the design exactly
-              const isActive = i === 0
-
-              // Automatically add chevron to items that look like dropdowns
-              const hasDropdown =
-                link.label.toLowerCase() === 'products' ||
-                link.label.toLowerCase() === 'solutions'
-
-              return (
-                <Link
-                  key={i}
-                  href={link.url}
-                  className={`uppercase text-[13px] font-bold tracking-wider transition-colors relative flex items-center
-                  ${isActive ? 'text-red-600' : 'text-gray-900 hover:text-red-600'}
-                `}
-                >
-                  {link.label}
-                  {hasDropdown && (
-                    <LucideIcons.ChevronDown
-                      className="w-4 h-4 ml-1 opacity-70"
-                      strokeWidth={3}
-                    />
-                  )}
-                  {isActive && (
-                    <span className="absolute -bottom-[6px] left-0 w-full h-[2px] bg-red-600" />
-                  )}
-                </Link>
-              )
-            })}
-          </nav>
+          <NavbarLinks links={links} />
         </div>
 
         {/* Action Buttons */}
