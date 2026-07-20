@@ -41,11 +41,12 @@ export const MobileMenu = ({
             <SheetTitle>
               <div className="relative w-32 h-10 mix-blend-multiply">
                 <Image
-                  src="/apk-logo.png"
+                  src="/apk-logo-transparent.png"
                   alt="APK Logo"
                   fill
                   sizes="128px"
                   className="object-contain object-left"
+                  priority
                 />
               </div>
             </SheetTitle>

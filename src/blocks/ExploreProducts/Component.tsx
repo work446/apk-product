@@ -3,7 +3,7 @@ import React, { useRef, useState, useEffect, useCallback } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react'
-import { m, LazyMotion, domAnimation } from 'framer-motion'
+import { m } from 'framer-motion'
 
 type CategoryType = {
   image: {
@@ -116,7 +116,7 @@ export const ExploreProductsBlock: React.FC<ExploreProductsType> = ({ title, cat
   }
 
   return (
-    <LazyMotion features={domAnimation}>
+    <>
       <section className="w-full bg-gray-50/50 py-12 md:py-16">
         <div className="container mx-auto px-4">
           {/* Section Title */}
@@ -252,6 +252,6 @@ export const ExploreProductsBlock: React.FC<ExploreProductsType> = ({ title, cat
           </m.div>
         </div>
       </section>
-    </LazyMotion>
+    </>
   )
 }

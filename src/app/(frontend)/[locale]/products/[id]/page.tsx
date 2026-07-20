@@ -73,7 +73,7 @@ export default async function ProductPage(props: {
         
         {/* Breadcrumb / Back Button */}
         <Link 
-          href={`/${locale}/products${product.category?.slug ? `?category=${product.category.slug}` : ''}`}
+          href={`/${locale}/products`}
           className="inline-flex items-center text-sm font-bold text-gray-500 hover:text-[#d81e28] transition-colors mb-6 md:mb-8 uppercase tracking-wider"
         >
           <ChevronLeft className="w-4 h-4 mr-1" strokeWidth={3} />

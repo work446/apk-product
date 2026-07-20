@@ -5,8 +5,15 @@ import { Navbar } from '@/components/Navbar'
 import { TopBanner } from '@/components/TopBanner'
 import { Footer } from '@/components/Footer'
 import { FloatingMenu } from '@/components/FloatingMenu'
-
+import { MotionProvider } from '@/providers/MotionProvider'
+import { Inter } from 'next/font/google'
 import type { Metadata } from 'next'
+
+const inter = Inter({
+  subsets: ['latin', 'vietnamese'],
+  display: 'swap',
+  variable: '--font-sans',
+})
 
 export const metadata: Metadata = {
   description: 'APK Product high quality lighting.',
@@ -28,13 +35,15 @@ export default async function RootLayout(props: {
   const locale = rawLocale as 'en' | 'vi'
 
   return (
-    <html lang={locale} suppressHydrationWarning>
-      <body>
-        <TopBanner locale={locale} />
-        <Navbar locale={locale} />
-        <main>{children}</main>
-        <Footer locale={locale} />
-        <FloatingMenu locale={locale} />
+    <html lang={locale} className={`${inter.variable} ${inter.className}`} suppressHydrationWarning>
+      <body className="antialiased">
+        <MotionProvider>
+          <TopBanner locale={locale} />
+          <Navbar locale={locale} />
+          <main>{children}</main>
+          <Footer locale={locale} />
+          <FloatingMenu locale={locale} />
+        </MotionProvider>
       </body>
     </html>
   )

@@ -5,7 +5,7 @@ export const BrandLogo = () => {
     <img
       src="/apk-logo-transparent.png"
       alt="APK Product Logo"
-      style={{ maxWidth: '600px', height: '300px', display: 'block' }}
+      style={{ width: '120px', height: 'auto', display: 'block' }}
     />
   )
 }
@@ -15,7 +15,7 @@ export const BrandIcon = () => {
     <img
       src="/apk-logo-transparent.png"
       alt="APK Product Icon"
-      style={{ width: '32px', height: '32px', objectFit: 'contain' }}
+      style={{ width: '80px', height: 'auto', display: 'block' }}
     />
   )
 }

@@ -2,7 +2,7 @@
 import React from 'react'
 import Link from 'next/link'
 import { Phone, ArrowRight } from 'lucide-react'
-import { m, LazyMotion, domAnimation } from 'framer-motion'
+import { m } from 'framer-motion'
 
 export type CallToActionBlockProps = {
   blockType: 'callToAction'
@@ -19,7 +19,7 @@ export const CallToActionBlock: React.FC<CallToActionBlockProps> = ({
   buttonLink,
 }) => {
   return (
-    <LazyMotion features={domAnimation}>
+    <>
       <section className="w-full bg-[#ffc107] overflow-hidden">
         <m.div 
           initial={{ opacity: 0, y: 30 }}
@@ -71,6 +71,6 @@ export const CallToActionBlock: React.FC<CallToActionBlockProps> = ({
           </div>
         </m.div>
       </section>
-    </LazyMotion>
+    </>
   )
 }

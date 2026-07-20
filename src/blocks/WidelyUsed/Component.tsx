@@ -11,7 +11,7 @@ import {
   Warehouse,
   LucideIcon,
 } from 'lucide-react'
-import { m, LazyMotion, domAnimation } from 'framer-motion'
+import { m } from 'framer-motion'
 
 export type WidelyUsedItemType = {
   icon: string
@@ -59,7 +59,7 @@ export const WidelyUsedBlock: React.FC<WidelyUsedType> = ({ title, items }) => {
   }
 
   return (
-    <LazyMotion features={domAnimation}>
+    <>
       <section className="w-full bg-[#f9fafb] py-10 md:py-24">
         <div className="container mx-auto px-4 max-w-6xl">
           {/* Title Section */}
@@ -137,6 +137,6 @@ export const WidelyUsedBlock: React.FC<WidelyUsedType> = ({ title, items }) => {
           </div>
         </div>
       </section>
-    </LazyMotion>
+    </>
   )
 }

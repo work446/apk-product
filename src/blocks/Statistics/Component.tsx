@@ -1,7 +1,7 @@
 'use client'
 import React, { useEffect, useRef } from 'react'
 import { Building2, Users, Handshake, ThumbsUp } from 'lucide-react'
-import { m, LazyMotion, domAnimation, useInView } from 'framer-motion'
+import { m, useInView } from 'framer-motion'
 
 type StatItem = {
   icon: 'building' | 'users' | 'handshake' | 'thumbs-up'
@@ -65,7 +65,7 @@ export const StatisticsBlock: React.FC<StatisticsBlockProps> = ({ stats }) => {
   if (!stats || stats.length === 0) return null
 
   return (
-    <LazyMotion features={domAnimation}>
+    <>
       <section className="w-full bg-[#c61e24] text-white py-12 md:py-16">
         <div className="container mx-auto px-4 max-w-7xl">
           <m.div 
@@ -111,6 +111,6 @@ export const StatisticsBlock: React.FC<StatisticsBlockProps> = ({ stats }) => {
           </m.div>
         </div>
       </section>
-    </LazyMotion>
+    </>
   )
 }

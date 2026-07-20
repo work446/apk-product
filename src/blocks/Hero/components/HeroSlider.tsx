@@ -51,6 +51,7 @@ export const HeroSlider = ({ sliderImages }: { sliderImages: any }) => {
                 src={(images[currentSlide].imagekit?.url || images[currentSlide].url) as string}
                 alt={images[currentSlide].alt || `Hero Slide ${currentSlide + 1}`}
                 fill
+                quality={100}
                 sizes="(min-width: 1536px) 1536px, 100vw"
                 priority={currentSlide === 0}
                 className={`object-cover object-[80%_center] lg:object-right w-full h-full transition-transform duration-700 ${
@@ -70,6 +71,7 @@ export const HeroSlider = ({ sliderImages }: { sliderImages: any }) => {
                     images[currentSlide].mobileImage.alt || `Hero Mobile Slide ${currentSlide + 1}`
                   }
                   fill
+                  quality={100}
                   priority={currentSlide === 0}
                   className="object-cover object-center w-full h-full hidden max-[520px]:block"
                 />
@@ -83,6 +85,7 @@ export const HeroSlider = ({ sliderImages }: { sliderImages: any }) => {
               src="/desktop-background.png"
               alt="Fallback Background"
               fill
+              quality={100}
               sizes="100vw"
               priority
               className="object-cover object-[80%_center] lg:object-right w-full h-full"

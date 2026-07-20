@@ -33,6 +33,7 @@ export const NavbarLinks = ({ links, locale }: { links: any[]; locale: string })
           <Link
             key={i}
             href={`/${locale}${cleanLink === '/' ? '' : cleanLink}`}
+            prefetch={true}
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             className={`uppercase text-[13px] font-bold tracking-wider transition-colors relative flex items-center
             ${isActive ? 'text-red-600' : 'text-gray-900 hover:text-red-600'}

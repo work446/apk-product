@@ -35,7 +35,7 @@ export async function Navbar({ locale = 'en' }: { locale?: 'en' | 'vi' }) {
           <Link href={`/${locale}`} className="flex items-center">
             <div className="relative w-40 md:w-48 h-16 mix-blend-multiply">
               <Image
-                src="/apk-logo.png"
+                src="/apk-logo-transparent.png"
                 alt="APK Logo"
                 fill
                 sizes="200px"
@@ -55,6 +55,7 @@ export async function Navbar({ locale = 'en' }: { locale?: 'en' | 'vi' }) {
         <div className="flex items-center space-x-4">
           <Link 
             href={navbar?.ctaUrl || '#products'}
+            prefetch={true}
             className="hidden md:flex bg-[#FFC20E] hover:bg-[#FFC20E] hover:brightness-110 text-black uppercase tracking-wide rounded px-6 h-9 text-[13px] transition-all items-center justify-center font-medium"
           >
             {navbar?.ctaText || 'See Products'}

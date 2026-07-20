@@ -39,7 +39,7 @@ async function run() {
         collection: 'products',
         id: product.id,
         data: {
-          cardFeatures: features,
+          cardFeatures: features as any,
         },
       })
       
@@ -61,7 +61,7 @@ async function run() {
           id: product.id,
           locale: 'vi',
           data: {
-            cardFeatures: viFeatures,
+            cardFeatures: viFeatures as any,
           },
         })
       }

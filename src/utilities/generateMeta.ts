@@ -11,7 +11,11 @@ export const generateMeta = async (args: { doc: any }): Promise<Metadata> => {
       ? [{ url: doc.meta.image.url }]
       : []
 
-  const title = doc?.meta?.title || 'APK Product'
+  let rawTitle = doc?.meta?.title || doc?.title || doc?.productTitle || doc?.productName || doc?.name
+  let title = 'APK Product'
+  if (rawTitle) {
+    title = rawTitle.includes('APK Product') ? rawTitle : `APK Product - ${rawTitle}`
+  }
   const description = doc?.meta?.description || 'APK Product'
 
   return {

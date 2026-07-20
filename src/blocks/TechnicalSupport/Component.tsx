@@ -4,7 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useAutoRotate } from '@/hooks/useAutoRotate'
 import { ArrowRight, Check } from 'lucide-react'
-import { m, LazyMotion, domAnimation } from 'framer-motion'
+import { m } from 'framer-motion'
 
 type FeatureType = {
   featureText: string
@@ -53,7 +53,7 @@ export const TechnicalSupportBlock: React.FC<TechnicalSupportType> = ({
   const [currentSlide] = useAutoRotate(slides.length, 6000)
 
   return (
-    <LazyMotion features={domAnimation}>
+    <>
       <section className="w-full bg-[#f9fafb] md:bg-white relative overflow-hidden flex flex-col md:flex-row md:items-stretch border-t border-gray-200">
         {/* 
         DESKTOP BACKGROUND IMAGE (Absolute on md+) 
@@ -75,6 +75,7 @@ export const TechnicalSupportBlock: React.FC<TechnicalSupportType> = ({
                     src={(img.imagekit?.url || img.url) as string}
                     alt={img.alt || 'Technical Support'}
                     fill
+                    quality={100}
                     sizes="(max-width: 768px) 100vw, 50vw"
                     priority={index === 0}
                     className={`object-cover w-full h-full transition-opacity duration-1000 ${
@@ -219,6 +220,6 @@ export const TechnicalSupportBlock: React.FC<TechnicalSupportType> = ({
           )}
         </div>
       </section>
-    </LazyMotion>
+    </>
   )
 }

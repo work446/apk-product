@@ -66,6 +66,7 @@ export const Footer = async ({ locale = 'en' }: { locale?: 'en' | 'vi' }) => {
                 <li key={index}>
                   <Link
                     href={link.url || '#'}
+                    prefetch={true}
                     className="text-gray-400 hover:text-[#d81e28] transition-colors text-sm font-medium"
                   >
                     {link.label}
