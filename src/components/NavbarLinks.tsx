@@ -15,26 +15,35 @@ export const NavbarLinks = ({ links, locale }: { links: any[]; locale: string })
         // 1. If it's the home page ('/en' or '/vi'), exact match is required.
         // 2. Otherwise, check if the current path starts with the link URL to keep it active on subpages (e.g. /products/123)
         const stripLocale = (p: string) => {
-          const stripped = p.replace(/^\/(en|vi)(\/|$)/, '/')
-          return stripped.length > 1 ? stripped.replace(/\/$/, '') : stripped
+          const stripped = p.replace(/^\/(en|vi)(?=[/?#]|$)/, '')
+          return stripped === '' ? '/' : stripped.length > 1 ? stripped.replace(/\/$/, '') : stripped
         }
 
         const cleanPath = stripLocale(pathname || '/')
         const cleanLink = stripLocale(link.url || '/')
 
+        const isHash = cleanLink.startsWith('#')
+        const normalizedLink = (isHash || cleanLink.startsWith('/') || cleanLink.startsWith('?')) ? cleanLink : `/${cleanLink}`
+
         let isActive = false
-        if (cleanLink === '/') {
+        if (normalizedLink === '/') {
           isActive = cleanPath === '/'
+        } else if (isHash) {
+          isActive = false // Hash links don't dictate page-level active state
         } else {
-          isActive = cleanPath.startsWith(cleanLink)
+          isActive = cleanPath.startsWith(normalizedLink)
         }
 
         return (
           <Link
             key={i}
-            href={`/${locale}${cleanLink === '/' ? '' : cleanLink}`}
+            href={`/${locale}${normalizedLink === '/' ? '' : normalizedLink}`}
             prefetch={true}
-            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            onClick={(e) => {
+              if (!isHash) {
+                window.scrollTo({ top: 0, behavior: 'smooth' })
+              }
+            }}
             className={`uppercase text-[13px] font-bold tracking-wider transition-colors relative flex items-center
             ${isActive ? 'text-red-600' : 'text-gray-900 hover:text-red-600'}
           `}

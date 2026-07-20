@@ -22,8 +22,8 @@ export const MobileMenu = ({
   const pathname = usePathname()
 
   const stripLocale = (p: string) => {
-    const stripped = p.replace(/^\/(en|vi)(\/|$)/, '/')
-    return stripped.length > 1 ? stripped.replace(/\/$/, '') : stripped
+    const stripped = p.replace(/^\/(en|vi)(?=[/?#]|$)/, '')
+    return stripped === '' ? '/' : stripped.length > 1 ? stripped.replace(/\/$/, '') : stripped
   }
 
   return (
@@ -56,21 +56,28 @@ export const MobileMenu = ({
             {links.map((link: any, i: number) => {
               const cleanPath = stripLocale(pathname || '/')
               const cleanLink = stripLocale(link.url || '/')
+              
+              const isHash = cleanLink.startsWith('#')
+              const normalizedLink = (isHash || cleanLink.startsWith('/') || cleanLink.startsWith('?')) ? cleanLink : `/${cleanLink}`
 
               let isActive = false
-              if (cleanLink === '/') {
+              if (normalizedLink === '/') {
                 isActive = cleanPath === '/'
+              } else if (isHash) {
+                isActive = false
               } else {
-                isActive = cleanPath.startsWith(cleanLink)
+                isActive = cleanPath.startsWith(normalizedLink)
               }
               
               return (
                 <Link
                   key={i}
-                  href={`/${locale}${cleanLink === '/' ? '' : cleanLink}`}
+                  href={`/${locale}${normalizedLink === '/' ? '' : normalizedLink}`}
                   onClick={() => {
                     setOpen(false)
-                    window.scrollTo({ top: 0, behavior: 'smooth' })
+                    if (!isHash) {
+                      window.scrollTo({ top: 0, behavior: 'smooth' })
+                    }
                   }}
                   className={`flex items-center justify-between w-full uppercase text-[14px] font-bold tracking-wider py-3 border-b border-gray-100 last:border-0 ${
                     isActive ? 'text-red-600' : 'text-gray-900 hover:text-red-600'
@@ -88,7 +95,9 @@ export const MobileMenu = ({
               href={`/${locale}${stripLocale(ctaUrl || '#products') === '/' ? '' : stripLocale(ctaUrl || '#products')}`}
               onClick={() => {
                 setOpen(false)
-                window.scrollTo({ top: 0, behavior: 'smooth' })
+                if (!(ctaUrl || '#products').startsWith('#')) {
+                  window.scrollTo({ top: 0, behavior: 'smooth' })
+                }
               }}
               className="bg-[#c61e24] hover:bg-[#a51920] transition-colors text-white uppercase tracking-wide rounded w-full h-12 text-[14px] font-bold flex items-center justify-center"
             >
