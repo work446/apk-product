@@ -8,6 +8,7 @@ import { FloatingMenu } from '@/components/FloatingMenu'
 import { MotionProvider } from '@/providers/MotionProvider'
 import { Inter } from 'next/font/google'
 import type { Metadata } from 'next'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 
 const inter = Inter({
   subsets: ['latin', 'vietnamese'],
@@ -44,6 +45,7 @@ export default async function RootLayout(props: {
           <Footer locale={locale} />
           <FloatingMenu locale={locale} />
         </MotionProvider>
+        <SpeedInsights />
       </body>
     </html>
   )

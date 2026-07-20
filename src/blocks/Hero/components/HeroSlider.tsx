@@ -14,34 +14,49 @@ export const HeroSlider = ({ sliderImages }: { sliderImages: any }) => {
     }))
     .filter((img: any) => img?.imagekit?.url || img?.url)
 
-  const [currentSlide, setCurrentSlide] = useAutoRotate(images.length, 4500)
-  const [isLoaded, setIsLoaded] = useState(false) // Helps with initial polish
+  const [currentSlide, setCurrentSlide, direction] = useAutoRotate(images.length, 4500)
+  const [isLoaded, setIsLoaded] = useState(false)
 
-  const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % images.length)
-  const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + images.length) % images.length)
+  const nextSlide = () => setCurrentSlide((prev: number) => (prev + 1) % images.length, 1)
+  const prevSlide = () => setCurrentSlide((prev: number) => (prev - 1 + images.length) % images.length, -1)
+  const goToSlide = (idx: number) => {
+    const dir = idx > currentSlide ? 1 : -1
+    setCurrentSlide(idx, dir)
+  }
+
+  const variants = {
+    enter: (direction: number) => ({
+      x: direction > 0 ? '100%' : '-100%',
+      opacity: 0.5,
+    }),
+    center: {
+      zIndex: 1,
+      x: 0,
+      opacity: 1,
+    },
+    exit: (direction: number) => ({
+      zIndex: 0,
+      x: direction < 0 ? '100%' : '-100%',
+      opacity: 0.5,
+    }),
+  }
 
   return (
     <div className="absolute inset-0 z-0 overflow-hidden">
       <div className="absolute inset-0 z-0 overflow-hidden">
         {images.length > 0 ? (
-          <AnimatePresence mode="wait">
+          <AnimatePresence initial={false} custom={direction}>
             {' '}
-            {/* Changed to 'wait' for cleaner crossfade */}
             <m.div
               key={currentSlide}
-              initial={{ opacity: 0, scale: 1.04 }}
-              animate={{
-                opacity: 1,
-                scale: 1,
-              }}
-              exit={{
-                opacity: 0,
-                scale: 0.96,
-                transition: { duration: 0.25, ease: 'easeIn' },
-              }}
+              custom={direction}
+              variants={variants}
+              initial="enter"
+              animate="center"
+              exit="exit"
               transition={{
-                duration: 0.45, // Fast but smooth entrance
-                ease: [0.23, 1, 0.32, 1], // Very nice "expo-out" feel
+                x: { type: 'spring', stiffness: 300, damping: 30 },
+                opacity: { duration: 0.2 },
               }}
               className="absolute inset-0 z-0 overflow-hidden"
               onAnimationComplete={() => setIsLoaded(true)}
@@ -119,7 +134,7 @@ export const HeroSlider = ({ sliderImages }: { sliderImages: any }) => {
               {images.map((_: any, idx: number) => (
                 <button
                   key={idx}
-                  onClick={() => setCurrentSlide(idx)}
+                  onClick={() => goToSlide(idx)}
                   className={`w-3 h-3 rounded-full transition-all shadow-md ${
                     currentSlide === idx ? 'bg-primary w-8' : 'bg-white/50 hover:bg-white'
                   }`}
