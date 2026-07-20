@@ -44,12 +44,27 @@ export const Products: CollectionConfig = {
       },
     },
     {
-      name: 'badge',
-      type: 'text',
+      name: 'description',
+      type: 'textarea',
       localized: true,
       admin: {
-        description: 'Optional badge text (e.g. "1 YEAR WARRANTY", "NEW"). Displays on the top right of the product image.',
+        description: 'Short product description displayed on the single product page under the title.',
       },
+    },
+    {
+      name: 'badges',
+      type: 'array',
+      localized: true,
+      admin: {
+        description: 'Optional badges (e.g. "2 YEAR WARRANTY", "TCVN CERTIFIED").',
+      },
+      fields: [
+        {
+          name: 'badgeText',
+          type: 'text',
+          required: true,
+        },
+      ],
     },
     {
       name: 'category',
@@ -59,47 +74,13 @@ export const Products: CollectionConfig = {
     },
     {
       name: 'cardFeatures',
-      type: 'array',
-      localized: true,
-      maxRows: 3,
+      type: 'relationship',
+      relationTo: 'features',
+      hasMany: true,
+      maxDepth: 1,
       admin: {
-        description: 'Up to 3 key features to display on the product card (e.g. 2x 1.5W LED, Up to 3 Hours).',
+        description: 'Select up to 6 key features to display on the product card/page.',
       },
-      fields: [
-        {
-          name: 'icon',
-          type: 'select',
-          required: false,
-          admin: {
-            description: 'Select a default icon.',
-          },
-          options: [
-            { label: 'Lightbulb', value: 'Lightbulb' },
-            { label: 'Clock', value: 'Clock' },
-            { label: 'Shield', value: 'Shield' },
-            { label: 'Battery', value: 'Battery' },
-            { label: 'Zap', value: 'Zap' },
-            { label: 'Droplet', value: 'Droplet' },
-            { label: 'Thermometer', value: 'Thermometer' },
-            { label: 'Check', value: 'Check' },
-            { label: 'Star', value: 'Star' },
-          ],
-        },
-        {
-          name: 'customIcon',
-          type: 'upload',
-          relationTo: 'media',
-          required: false,
-          admin: {
-            description: 'Optional: Upload a custom icon (SVG/PNG) to override the default selected icon.',
-          },
-        },
-        {
-          name: 'text',
-          type: 'text',
-          required: true,
-        },
-      ],
     },
     {
       name: 'images',

@@ -73,6 +73,7 @@ export interface Config {
     'top-banners': TopBanner;
     products: Product;
     categories: Category;
+    features: Feature;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -86,6 +87,7 @@ export interface Config {
     'top-banners': TopBannersSelect<false> | TopBannersSelect<true>;
     products: ProductsSelect<false> | ProductsSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
+    features: FeaturesSelect<false> | FeaturesSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -371,28 +373,23 @@ export interface Product {
    */
   company: string;
   /**
-   * Optional badge text (e.g. "1 YEAR WARRANTY", "NEW"). Displays on the top right of the product image.
+   * Short product description displayed on the single product page under the title.
    */
-  badge?: string | null;
-  category?: (number | null) | Category;
+  description?: string | null;
   /**
-   * Up to 3 key features to display on the product card (e.g. 2x 1.5W LED, Up to 3 Hours).
+   * Optional badges (e.g. "2 YEAR WARRANTY", "TCVN CERTIFIED").
    */
-  cardFeatures?:
+  badges?:
     | {
-        /**
-         * Select a default icon.
-         */
-        icon?:
-          ('Lightbulb' | 'Clock' | 'Shield' | 'Battery' | 'Zap' | 'Droplet' | 'Thermometer' | 'Check' | 'Star') | null;
-        /**
-         * Optional: Upload a custom icon (SVG/PNG) to override the default selected icon.
-         */
-        customIcon?: (number | null) | Media;
-        text: string;
+        badgeText: string;
         id?: string | null;
       }[]
     | null;
+  category?: (number | null) | Category;
+  /**
+   * Select up to 6 key features to display on the product card/page.
+   */
+  cardFeatures?: (number | Feature)[] | null;
   images?:
     | {
         image: number | Media;
@@ -536,6 +533,31 @@ export interface CategoryHeaderBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "features".
+ */
+export interface Feature {
+  id: number;
+  /**
+   * The main feature text (e.g. "High Brightness" or "2x 1.5W LED").
+   */
+  title: string;
+  /**
+   * Optional secondary text (e.g. "Powerful LED" or "Up to 3 Hours").
+   */
+  subtitle?: string | null;
+  /**
+   * Select a default icon to represent this feature.
+   */
+  icon?: ('Lightbulb' | 'Clock' | 'Shield' | 'Battery' | 'Zap' | 'Droplet' | 'Thermometer' | 'Check' | 'Star') | null;
+  /**
+   * Optional: Upload a custom icon (SVG/PNG) to override the default selected icon.
+   */
+  customIcon?: (number | null) | Media;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -581,6 +603,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'categories';
         value: number | Category;
+      } | null)
+    | ({
+        relationTo: 'features';
+        value: number | Feature;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -836,16 +862,15 @@ export interface ProductsSelect<T extends boolean = true> {
   productName?: T;
   productTitle?: T;
   company?: T;
-  badge?: T;
-  category?: T;
-  cardFeatures?:
+  description?: T;
+  badges?:
     | T
     | {
-        icon?: T;
-        customIcon?: T;
-        text?: T;
+        badgeText?: T;
         id?: T;
       };
+  category?: T;
+  cardFeatures?: T;
   images?:
     | T
     | {
@@ -970,6 +995,18 @@ export interface CategoryHeaderBlockSelect<T extends boolean = true> {
   description?: T;
   id?: T;
   blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "features_select".
+ */
+export interface FeaturesSelect<T extends boolean = true> {
+  title?: T;
+  subtitle?: T;
+  icon?: T;
+  customIcon?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

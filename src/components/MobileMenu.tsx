@@ -46,14 +46,19 @@ export const MobileMenu = ({
 
           <div className="flex-1 overflow-y-auto px-6 py-4 flex flex-col gap-4">
             {links.map((link: any, i: number) => {
+              const stripLocale = (p: string) => {
+                const stripped = p.replace(/^\/(en|vi)(\/|$)/, '/')
+                return stripped.length > 1 ? stripped.replace(/\/$/, '') : stripped
+              }
+
+              const cleanPath = stripLocale(pathname || '/')
+              const cleanLink = stripLocale(link.url || '/')
+
               let isActive = false
-              const normalizedPath = pathname.replace(/\/$/, '') || '/'
-              const isHomeLink = link.url === '/' || link.url === '/en' || link.url === '/vi'
-              
-              if (isHomeLink) {
-                isActive = normalizedPath === '/' || normalizedPath === '/en' || normalizedPath === '/vi'
+              if (cleanLink === '/') {
+                isActive = cleanPath === '/'
               } else {
-                isActive = normalizedPath.startsWith(link.url)
+                isActive = cleanPath.startsWith(cleanLink)
               }
               
               return (

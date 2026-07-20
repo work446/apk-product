@@ -12,6 +12,7 @@ import { Pages } from './collections/Pages'
 import { TopBanners } from './collections/TopBanners'
 import { Products } from './collections/Products'
 import { Categories } from './collections/Categories'
+import { Features } from './collections/Features'
 import { Navbar } from './globals/Navbar'
 import { Footer } from './globals/Footer'
 import { FloatingMenu } from './globals/FloatingMenu'
@@ -27,7 +28,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media, Pages, TopBanners, Products, Categories],
+  collections: [Users, Media, Pages, TopBanners, Products, Categories, Features],
   globals: [Navbar, Footer, FloatingMenu],
   localization: {
     locales: ['en', 'vi'],

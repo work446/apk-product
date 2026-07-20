@@ -14,14 +14,19 @@ export const NavbarLinks = ({ links }: { links: any[] }) => {
         // Determine active state: 
         // 1. If it's the home page ('/en' or '/vi'), exact match is required.
         // 2. Otherwise, check if the current path starts with the link URL to keep it active on subpages (e.g. /products/123)
+        const stripLocale = (p: string) => {
+          const stripped = p.replace(/^\/(en|vi)(\/|$)/, '/')
+          return stripped.length > 1 ? stripped.replace(/\/$/, '') : stripped
+        }
+
+        const cleanPath = stripLocale(pathname || '/')
+        const cleanLink = stripLocale(link.url || '/')
+
         let isActive = false
-        const normalizedPath = pathname.replace(/\/$/, '') || '/'
-        const isHomeLink = link.url === '/' || link.url === '/en' || link.url === '/vi'
-        
-        if (isHomeLink) {
-          isActive = normalizedPath === '/' || normalizedPath === '/en' || normalizedPath === '/vi'
+        if (cleanLink === '/') {
+          isActive = cleanPath === '/'
         } else {
-          isActive = normalizedPath.startsWith(link.url)
+          isActive = cleanPath.startsWith(cleanLink)
         }
 
         // Automatically add chevron to items that look like dropdowns

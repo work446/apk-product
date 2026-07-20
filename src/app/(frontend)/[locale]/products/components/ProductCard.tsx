@@ -83,10 +83,10 @@ export const ProductCard = ({ product, locale, index }: { product: any; locale: 
         href={`/${locale}/products/${product.id}`}
         className="relative w-full h-[200px] sm:h-[220px] bg-white overflow-hidden group-hover:bg-gray-50/50 transition-colors flex items-center justify-center p-4"
       >
-        {/* Optional Badge */}
-        {product.badge && (
+        {/* Optional Badges (only show first one on card) */}
+        {product.badges && product.badges.length > 0 && (
           <div className="absolute top-2 sm:top-3 right-2 sm:right-3 z-10 bg-[#1a202c] text-white text-[7px] sm:text-[8px] font-bold px-1.5 py-0.5 uppercase tracking-widest rounded-[2px] whitespace-nowrap shadow-sm">
-            {product.badge}
+            {product.badges[0].badgeText}
           </div>
         )}
         <Image
@@ -118,8 +118,8 @@ export const ProductCard = ({ product, locale, index }: { product: any; locale: 
                   icon: getIconForText((s.key || '') + ' ' + (s.value || '')),
                   text: s.value,
                 })) || []
-            ).map((feat: any, i: number, arr: any[]) => {
-              const Icon = IconMap[feat.icon] || Check
+            ).map((feat: any, i: number) => {
+              const Icon = IconMap[feat.icon || getIconForText(feat.title || feat.text || '')] || Check
               return (
                 <div
                   key={i}
@@ -129,18 +129,20 @@ export const ProductCard = ({ product, locale, index }: { product: any; locale: 
                     {feat.customIcon &&
                     typeof feat.customIcon === 'object' &&
                     feat.customIcon.url ? (
-                      <Image
-                        src={feat.customIcon.url}
-                        alt={feat.customIcon.alt || 'Custom Icon'}
-                        sizes="14px"
-                        fill
-                        className="object-contain opacity-60"
-                      />
+                      <div className="relative w-full h-full">
+                        <Image
+                          src={feat.customIcon.url}
+                          alt={feat.customIcon.alt || 'Custom Icon'}
+                          sizes="14px"
+                          fill
+                          className="object-contain opacity-60"
+                        />
+                      </div>
                     ) : (
                       <Icon className="w-3.5 h-3.5 text-gray-500" strokeWidth={2.5} />
                     )}
                   </div>
-                  <span className="truncate flex-1">{feat.text}</span>
+                  <span className="truncate flex-1">{feat.title || feat.text}</span>
                 </div>
               )
             })}
