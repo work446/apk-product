@@ -19,7 +19,7 @@ export const ProductsContent = async ({
   const payloadConfig = await config
   const payload = await getPayload({ config: payloadConfig })
 
-  const { isEnabled: draft } = await draftMode().catch(() => ({ isEnabled: true }))
+  const { isEnabled: draft } = await draftMode()
 
   // Fetch categories
   const categoriesRes = await payload.find({

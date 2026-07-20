@@ -34,7 +34,7 @@ export default async function HomePage(props: { params: Promise<{ locale: string
   const payloadConfig = await config
   const payload = await getPayload({ config: payloadConfig })
 
-  const { isEnabled: draft } = await draftMode().catch(() => ({ isEnabled: true }))
+  const { isEnabled: draft } = await draftMode()
 
   // Fetch the homepage
   const { docs } = await payload.find({

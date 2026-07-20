@@ -48,7 +48,7 @@ export default async function ProductPage(props: {
 
   const payload = await getPayload({ config: configPromise })
   
-  const { isEnabled: draft } = await draftMode().catch(() => ({ isEnabled: true }))
+  const { isEnabled: draft } = await draftMode()
   
   let product: any
   try {
