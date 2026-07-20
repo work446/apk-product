@@ -26,6 +26,7 @@ export async function Navbar({ locale = 'en' }: { locale?: 'en' | 'vi' }) {
   const cleanCtaUrl = rawCtaUrl.replace(/^\/(en|vi)(?=[/?#]|$)/, '')
   const normalizedCtaUrl = cleanCtaUrl.startsWith('/') ? cleanCtaUrl : `/${cleanCtaUrl}`
   const ctaHref = `/${locale}${normalizedCtaUrl === '/' ? '' : normalizedCtaUrl}`
+  const links = navbar?.links || []
 
   return (
     <>
