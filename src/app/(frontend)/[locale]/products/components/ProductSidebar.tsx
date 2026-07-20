@@ -48,26 +48,20 @@ const getIconForCategory = (slug: string) => {
 }
 
 export const ProductSidebar = ({ categories, locale }: { categories: Category[], locale: string }) => {
-  const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
   const { setOpenMobile, isMobile } = useSidebar()
 
   const currentCategory = searchParams.get('category') || 'all'
 
-  const handleCategoryChange = (slug: string) => {
+  const createHref = (slug: string) => {
     const params = new URLSearchParams(searchParams.toString())
     if (slug === 'all') {
       params.delete('category')
     } else {
       params.set('category', slug)
     }
-    router.push(`/${locale}/products?${params.toString()}`, { scroll: true })
-    window.scrollTo({ top: 0, behavior: 'smooth' })
-    
-    if (isMobile) {
-      setOpenMobile(false)
-    }
+    return `/${locale}/products?${params.toString()}`
   }
 
   const t = {
@@ -95,8 +89,8 @@ export const ProductSidebar = ({ categories, locale }: { categories: Category[],
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton 
+                  render={<Link href={createHref('all')} scroll={true} prefetch={true} onClick={() => { window.scrollTo({ top: 0, behavior: 'smooth' }); if (isMobile) setOpenMobile(false); }} />}
                   isActive={currentCategory === 'all'}
-                  onClick={() => handleCategoryChange('all')}
                   className={`w-full py-5 rounded-md transition-all duration-200 cursor-pointer ${
                     currentCategory === 'all' 
                       ? 'bg-red-50 text-[#d81e28] font-bold hover:bg-red-50 hover:text-[#d81e28]' 
@@ -113,8 +107,8 @@ export const ProductSidebar = ({ categories, locale }: { categories: Category[],
                 return (
                   <SidebarMenuItem key={cat.id}>
                     <SidebarMenuButton 
+                      render={<Link href={createHref(cat.slug)} scroll={true} prefetch={true} onClick={() => { window.scrollTo({ top: 0, behavior: 'smooth' }); if (isMobile) setOpenMobile(false); }} />}
                       isActive={isActive}
-                      onClick={() => handleCategoryChange(cat.slug)}
                       className={`w-full py-5 rounded-md transition-all duration-200 cursor-pointer ${
                         isActive 
                           ? 'bg-red-50 text-[#d81e28] font-bold hover:bg-red-50 hover:text-[#d81e28]' 
