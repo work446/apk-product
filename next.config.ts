@@ -8,6 +8,7 @@ const dirname = path.dirname(__filename)
 
 const nextConfig: NextConfig = {
   images: {
+    qualities: [25, 38, 50, 64, 75, 82, 90, 96, 100],
     remotePatterns: [
       {
         protocol: 'https',
