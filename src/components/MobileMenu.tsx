@@ -11,13 +11,20 @@ export const MobileMenu = ({
   links,
   ctaText,
   ctaUrl,
+  locale,
 }: {
   links: any[]
   ctaText: string
   ctaUrl: string
+  locale: string
 }) => {
   const [open, setOpen] = useState(false)
   const pathname = usePathname()
+
+  const stripLocale = (p: string) => {
+    const stripped = p.replace(/^\/(en|vi)(\/|$)/, '/')
+    return stripped.length > 1 ? stripped.replace(/\/$/, '') : stripped
+  }
 
   return (
     <div className="lg:hidden flex items-center">
@@ -46,11 +53,6 @@ export const MobileMenu = ({
 
           <div className="flex-1 overflow-y-auto px-6 py-4 flex flex-col gap-4">
             {links.map((link: any, i: number) => {
-              const stripLocale = (p: string) => {
-                const stripped = p.replace(/^\/(en|vi)(\/|$)/, '/')
-                return stripped.length > 1 ? stripped.replace(/\/$/, '') : stripped
-              }
-
               const cleanPath = stripLocale(pathname || '/')
               const cleanLink = stripLocale(link.url || '/')
 
@@ -64,7 +66,7 @@ export const MobileMenu = ({
               return (
                 <Link
                   key={i}
-                  href={link.url}
+                  href={`/${locale}${cleanLink === '/' ? '' : cleanLink}`}
                   onClick={() => {
                     setOpen(false)
                     window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -82,7 +84,7 @@ export const MobileMenu = ({
 
           <div className="p-6 mt-auto border-t">
             <Link
-              href={ctaUrl || '#products'}
+              href={`/${locale}${stripLocale(ctaUrl || '#products') === '/' ? '' : stripLocale(ctaUrl || '#products')}`}
               onClick={() => {
                 setOpen(false)
                 window.scrollTo({ top: 0, behavior: 'smooth' })

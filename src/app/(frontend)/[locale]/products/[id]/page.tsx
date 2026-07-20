@@ -8,7 +8,26 @@ import { ProductHighlights } from '../components/ProductHighlights'
 import { ProductSpecifications } from '../components/ProductSpecifications'
 import Link from 'next/link'
 import { ChevronLeft } from 'lucide-react'
+import type { Metadata } from 'next'
+import { generateMeta } from '@/utilities/generateMeta'
 
+export async function generateMetadata(props: {
+  params: Promise<{ locale: string; id: string }>
+}): Promise<Metadata> {
+  const { locale, id } = await props.params
+  const payload = await getPayload({ config: configPromise })
+  
+  try {
+    const product = await payload.findByID({
+      collection: 'products',
+      id: id,
+      locale: locale as any,
+    })
+    return generateMeta({ doc: product })
+  } catch (error) {
+    return generateMeta({ doc: null })
+  }
+}
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
   const products = await payload.find({
@@ -17,7 +36,7 @@ export async function generateStaticParams() {
   })
 
   return products.docs.map((doc) => ({
-    id: doc.id,
+    id: String(doc.id),
   }))
 }
 

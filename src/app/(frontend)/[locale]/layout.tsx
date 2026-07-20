@@ -6,9 +6,17 @@ import { TopBanner } from '@/components/TopBanner'
 import { Footer } from '@/components/Footer'
 import { FloatingMenu } from '@/components/FloatingMenu'
 
-export const metadata = {
-  description: 'A blank template using Payload in a Next.js app.',
-  title: 'Payload Blank Template',
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  description: 'APK Product high quality lighting.',
+  title: 'APK Product',
+}
+
+export const revalidate = 60 // Revalidate all pages every 60 seconds
+
+export function generateStaticParams() {
+  return [{ locale: 'en' }, { locale: 'vi' }]
 }
 
 export default async function RootLayout(props: {

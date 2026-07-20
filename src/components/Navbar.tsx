@@ -48,7 +48,7 @@ export async function Navbar({ locale = 'en' }: { locale?: 'en' | 'vi' }) {
 
         {/* Dynamic Navigation Links */}
         <div className="hidden lg:flex flex-1 items-center justify-center space-x-8">
-          <NavbarLinks links={links} />
+          <NavbarLinks links={links} locale={locale} />
         </div>
 
         {/* Action Buttons */}
@@ -64,7 +64,7 @@ export async function Navbar({ locale = 'en' }: { locale?: 'en' | 'vi' }) {
           {/* Interactive Language Selector Interface */}
           <div className="pl-2 border-l border-gray-200 relative z-[60] pointer-events-auto flex items-center space-x-2">
             <LocaleSwitcher currentLocale={locale} />
-            <MobileMenu links={links} ctaText={navbar?.ctaText} ctaUrl={navbar?.ctaUrl} />
+            <MobileMenu links={links} ctaText={navbar?.ctaText} ctaUrl={navbar?.ctaUrl} locale={locale} />
           </div>
         </div>
       </div>

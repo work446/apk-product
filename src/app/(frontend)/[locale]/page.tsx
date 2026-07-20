@@ -1,7 +1,29 @@
+import type { Metadata } from 'next'
 import { getPayload } from 'payload'
 import config from '@/payload.config'
 import { RenderBlocks } from '@/blocks/RenderBlocks'
 import { notFound } from 'next/navigation'
+import { generateMeta } from '@/utilities/generateMeta'
+
+export async function generateMetadata(props: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale: rawLocale } = await props.params
+  const locale = rawLocale as 'en' | 'vi'
+
+  const payloadConfig = await config
+  const payload = await getPayload({ config: payloadConfig })
+
+  const { docs } = await payload.find({
+    collection: 'pages',
+    where: {
+      slug: { equals: 'home' },
+    },
+    locale,
+    limit: 1,
+  })
+
+  const page = docs[0]
+  return generateMeta({ doc: page })
+}
 
 export default async function HomePage(props: { params: Promise<{ locale: string }> }) {
   const { locale: rawLocale } = await props.params

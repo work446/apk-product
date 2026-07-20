@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import * as LucideIcons from 'lucide-react'
 
-export const NavbarLinks = ({ links }: { links: any[] }) => {
+export const NavbarLinks = ({ links, locale }: { links: any[]; locale: string }) => {
   const pathname = usePathname()
 
   return (
@@ -29,27 +29,16 @@ export const NavbarLinks = ({ links }: { links: any[] }) => {
           isActive = cleanPath.startsWith(cleanLink)
         }
 
-        // Automatically add chevron to items that look like dropdowns
-        const hasDropdown =
-          link.label.toLowerCase() === 'products' ||
-          link.label.toLowerCase() === 'solutions'
-
         return (
           <Link
             key={i}
-            href={link.url}
+            href={`/${locale}${cleanLink === '/' ? '' : cleanLink}`}
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             className={`uppercase text-[13px] font-bold tracking-wider transition-colors relative flex items-center
             ${isActive ? 'text-red-600' : 'text-gray-900 hover:text-red-600'}
           `}
           >
             {link.label}
-            {hasDropdown && (
-              <LucideIcons.ChevronDown
-                className="w-4 h-4 ml-1 opacity-70"
-                strokeWidth={3}
-              />
-            )}
           </Link>
         )
       })}
